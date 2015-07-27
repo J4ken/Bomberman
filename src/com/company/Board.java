@@ -10,6 +10,6 @@ public class Board {
     public Board (int height, int width){
 
         height = height;
-        width = width;
+        width = width;kuk
     }
 }
