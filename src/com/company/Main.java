@@ -8,6 +8,7 @@ public class Main {
 
         System.out.println(player_1.x);
         System.out.println(board.height);
+
     }
 
 }
