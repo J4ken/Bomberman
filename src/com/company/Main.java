@@ -3,6 +3,9 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-	    System.out.println("hello World");
+	    Board board = new Board(15,17);
+
+        System.out.println(board.height);
     }
+
 }
