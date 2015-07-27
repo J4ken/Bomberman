@@ -13,6 +13,7 @@ public class Player {
         this.speed = speed;
         this.bombs = bombs;
         this.power = power;
+        KUKUKUUUUUUUUUUUUUUUUUUK;
     }
 
 }
