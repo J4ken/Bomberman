@@ -5,12 +5,11 @@ package com.company;
  */
 public class Board {
 
-    int height;
-    int width;
+
 
     public Board (int height, int width){
 
-        this.height = height;
-        this.width = width;
+        height = height;
+        width = width;
     }
 }
