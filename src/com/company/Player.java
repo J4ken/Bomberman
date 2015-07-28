@@ -5,7 +5,7 @@ package com.company;
  */
 public class Player {
 
-    static int xPos, yPos, bombs, health, power, speed;
+    private int xPos, yPos, bombs, health, power, speed;
 
     public Player(int player){
         this.speed = 1;
@@ -23,51 +23,51 @@ public class Player {
         }
     }
 
-    public static int getxPos() {
+    public int getxPos() {
         return xPos;
     }
 
-    public static void setxPos(int xPos) {
-        Player.xPos = xPos;
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
     }
 
-    public static int getyPos() {
+    public int getyPos() {
         return yPos;
     }
 
-    public static void setyPos(int yPos) {
-        Player.yPos = yPos;
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
     }
 
-    public static int getBombs() {
+    public int getBombs() {
         return bombs;
     }
 
-    public static void setBombs(int bombs) {
-        Player.bombs = bombs;
+    public void setBombs(int bombs) {
+        this.bombs = bombs;
     }
 
-    public static int getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public static void setHealth(int health) {
-        Player.health = health;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public static int getPower() {
+    public int getPower() {
         return power;
     }
 
-    public static void setPower(int power) {
-        Player.power = power;
+    public void setPower(int power) {
+        this.power = power;
     }
 
-    public static int getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public static void setSpeed(int speed) {
-        Player.speed = speed;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 }
