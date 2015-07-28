@@ -5,12 +5,13 @@ package com.company;
  */
 public class Player {
 
-    static int xPos, yPos, bombs, power;
+    static int xPos, yPos, bombs, health, power, speed;
 
     public Player(int player){
-        //this.speed = speed; ??
+        this.speed = 1;
         this.bombs = 1;
         this.power = 1;
+        this.health = 3;
 
         switch (player) {
             case 1:

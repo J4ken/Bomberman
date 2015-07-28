@@ -5,44 +5,39 @@ package com.company;
  */
 public class Board {
 
-    private String [][] board;
-    private int height;
-    private int width;
-
-    public int xPos;
-    public int yPos;
-
+    private Tiles[][] board;
+    private int width, height;
 
     public Board (int height, int width){
+        this.board = new Tiles[height][width];
         this.height = height;
         this.width = width;
-        this.board = new String[height][width];
-
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
                 if (i == 0 || j == 0 || i == height-1 || j == width-1 || ((i % 2 == 0) && (j % 2 == 0))) {
-                    board[i][j] = "#";
+                    board[i][j] = Tiles.WALL;
                 }
                 else {
-                    board[i][j] = "O";
+                    board[i][j] = Tiles.FLOOR;
                 }
             }
         }
     }
-    public void insertPlayer(int xPos, int yPos){
 
-        board[xPos][yPos] = "P";
+    public int getWidth() {
+        return width;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
-    public void printBoard (){
+    public int getHeight() {
+        return height;
+    }
 
-        for(int i = 0; i < height; ++i){
-            for(int j = 0; j < width; ++j){
-                System.out.print(board[i][j]);
-            }
-            System.out.println();
-        }
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
