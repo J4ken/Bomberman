@@ -5,15 +5,21 @@ package com.company;
  */
 public class Player {
 
-    static int x, y, speed, bombs, power;
+    static int xPos, yPos, bombs, power;
 
-    public Player(int x, int y, int speed, int bombs, int power){
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.bombs = bombs;
-        this.power = power;
-        KUKUKUUUUUUUUUUUUUUUUUUK;
+    public Player(int player){
+        //this.speed = speed; ??
+        this.bombs = 1;
+        this.power = 1;
+
+        switch (player) {
+            case 1:
+                this.xPos = 1;
+                this.yPos = 1;
+            case 2:
+                this.xPos = 5;
+                this.yPos = 5;
+        }
     }
 
 }
