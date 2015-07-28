@@ -3,9 +3,14 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-	    Board board = new Board(7,7);
+        int h = 11;
+        int w = 25;
 
-        System.out.println(board.toString());
+        Player player = new Player(1);
+	    Board board = new Board(h,w);
+        board.insertPlayer(player.xPos,player.yPos);
+
+        board.printBoard();
 
     }
 
