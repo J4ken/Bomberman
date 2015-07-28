@@ -6,7 +6,6 @@ public class Main {
 	    Board board = new Board(7,7);
 
         System.out.println(board.toString());
-
     }
 
 }

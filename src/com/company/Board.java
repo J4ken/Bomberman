@@ -6,11 +6,12 @@ package com.company;
 public class Board {
 
     private Tiles[][] board;
+    private int width, height;
 
     public Board (int height, int width){
         this.board = new Tiles[height][width];
-        height = height;
-        width = width;
+        this.height = height;
+        this.width = width;
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -22,5 +23,21 @@ public class Board {
                 }
             }
         }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
