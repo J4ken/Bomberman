@@ -1,8 +1,17 @@
 package com.company;
 
+/*
+    Board is a board
+    Board contains every position except players
+    Board can manipulate the board
+
+ */
+
+
 /**
  * Created by Jacob on 2015-07-27.
  */
+
 public class Board {
 
     private Tiles[][] board;

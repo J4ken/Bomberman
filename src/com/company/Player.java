@@ -3,6 +3,16 @@ package com.company;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/*  Player is...
+
+    Player can manipulate player_positions
+    player can manipulate player_action
+    Player can manupluate player_atribute
+
+    Player contains images for sprites and bombs
+ */
+
+
 /**
  * Created by Jacob on 2015-07-27.
  */
