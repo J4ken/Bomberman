@@ -25,6 +25,10 @@ public class Board {
         }
     }
 
+    public Tiles getTile(int height, int width) {
+        return board[height][width];
+    }
+
     public int getWidth() {
         return width;
     }
