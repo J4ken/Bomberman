@@ -6,21 +6,25 @@ import sun.plugin2.util.ColorUtil;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.AbstractMap;
 import java.util.EnumMap;
 
 /**
  * Created by Håkan on 2015-07-31.
  */
-public class GraphicsComponent extends JComponent {
+public class GraphicsComponent extends JComponent implements KeyListener{
     private Board board;
+    private Player player1, player2;
     private AbstractMap<Tiles, Color> enumMap;
     final static int TILE_SIZE = 30;
 
     public GraphicsComponent(Board board) {
         this.board = board;
+        this.player1 = new Player(1);
+        this.player2 = new Player(2);
         setColorMap();
-
     }
 
     private void setColorMap() {
@@ -45,11 +49,37 @@ public class GraphicsComponent extends JComponent {
                 g2d.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
-        repaint();
+
+        System.out.print(player1.getxPos());
+
+        g2d.setColor(enumMap.get(Tiles.PLAYER1));
+        g2d.fillRect(player1.getxPos(), player1.getyPos(), TILE_SIZE, TILE_SIZE);
+
     }
 
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(TILE_SIZE * board.getWidth(), TILE_SIZE * board.getHeight());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        player1.keyReleased(e);
+        player1.move();
+        player2.keyReleased(e);
+        repaint();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        player1.keyPressed(e);
+        player1.move();
+        player2.keyPressed(e);
+        repaint();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
     }
 }
