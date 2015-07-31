@@ -13,13 +13,14 @@ public class Bomb {
         this.yPos = p.getyPos();
         this.power = 1;
         this.board = b;
-
     }
 
     public void blow(Bomb bomb) {
         for (int i = 0; i < power; ++i) {
             for (int j = 0; j < power; ++j) {
-                if (board.getTile())
+                if (board.getTile(i, j) == Tiles.FLOOR) {
+
+                }
             }
         }
     }
