@@ -67,7 +67,6 @@ public class GraphicsComponent extends JComponent implements KeyListener{
         player1.keyReleased(e);
         player1.move();
         player2.keyReleased(e);
-        repaint();
     }
 
     @Override
