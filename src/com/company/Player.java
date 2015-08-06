@@ -14,17 +14,17 @@ public class Player {
     private Image image;
 
     public Player(int player){
-        this.speed = 1;
-        this.bombs = 1;
-        this.power = 1;
-        this.health = 3;
+        speed = 1;
+        bombs = 1;
+        power = 1;
+        health = 3;
 
         initializeControls(player);
 
         switch (player) {
             case 1:
-                this.xPos = 1;
-                this.yPos = 1;
+                this.xPos = GraphicsComponent.TILE_SIZE;
+                this.yPos = GraphicsComponent.TILE_SIZE;
                 break;
             case 2:
                 this.xPos = 5;
@@ -36,18 +36,18 @@ public class Player {
     private void initializeControls(int player) {
         switch (player) {
             case 1:
-                this.up = KeyEvent.VK_UP;
-                this.down = KeyEvent.VK_DOWN;
-                this.left = KeyEvent.VK_LEFT;
-                this.right = KeyEvent.VK_RIGHT;
-                this.placeBomb = KeyEvent.VK_SPACE;
+                up = KeyEvent.VK_UP;
+                down = KeyEvent.VK_DOWN;
+                left = KeyEvent.VK_LEFT;
+                right = KeyEvent.VK_RIGHT;
+                placeBomb = KeyEvent.VK_SPACE;
                 break;
             case 2:
-                this.up = KeyEvent.VK_W;
-                this.down = KeyEvent.VK_S;
-                this.left = KeyEvent.VK_A;
-                this.right = KeyEvent.VK_D;
-                this.placeBomb = KeyEvent.VK_E;
+                up = KeyEvent.VK_W;
+                down = KeyEvent.VK_S;
+                left = KeyEvent.VK_A;
+                right = KeyEvent.VK_D;
+                placeBomb = KeyEvent.VK_E;
                 break;
         }
     }
@@ -55,16 +55,16 @@ public class Player {
     public void move() {
         switch (action) {
             case UP:
-                yPos -= 1;
+                yPos -= 30;
                 break;
             case DOWN:
-                yPos += 1;
+                yPos += 30;
                 break;
             case LEFT:
-                xPos -= 1;
+                xPos -= 30;
                 break;
             case RIGHT:
-                xPos += 1;
+                xPos += 30;
                 break;
         }
     }

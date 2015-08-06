@@ -9,7 +9,7 @@ public class Board {
     private int width, height;
 
     public Board (int height, int width){
-        this.board = new Tiles[height][width];
+        board = new Tiles[height][width];
         this.height = height;
         this.width = width;
 
@@ -23,6 +23,39 @@ public class Board {
                 }
             }
         }
+    }
+
+    public boolean canMove(Player p) {
+        switch (p.getAction()) {
+            case UP:
+                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE - 1,
+                        p.getxPos() / GraphicsComponent.TILE_SIZE) == Tiles.FLOOR) {
+                    return true;
+                }
+                return false;
+            case DOWN:
+                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE + 1,
+                        p.getxPos() / GraphicsComponent.TILE_SIZE) == Tiles.FLOOR) {
+                    return true;
+                }
+                return false;
+            case RIGHT:
+                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE,
+                        p.getxPos() / GraphicsComponent.TILE_SIZE + 1) == Tiles.FLOOR) {
+                    return true;
+                }
+                return false;
+            case LEFT:
+                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE,
+                        p.getxPos() / GraphicsComponent.TILE_SIZE - 1) == Tiles.FLOOR) {
+                    return true;
+                }
+                return false;
+            default: break;
+
+        }
+        System.out.print("NOOOOOOOOOOOO!");
+        return false;
     }
 
     public Tiles getTile(int height, int width) {

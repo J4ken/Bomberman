@@ -1,28 +1,38 @@
 package com.company;
 
+import javax.swing.*;
+import javax.swing.Action;
+import java.awt.event.ActionEvent;
+
 /**
  * Created by Håkan on 2015-07-30.
  */
 public class Bomb {
-    final static int timer = 3000;
+    final static int delay = 3000;
     private  int xPos, yPos, power;
-    Board board;
+    private boolean explode;
 
-    public Bomb(Player p, Board b) {
+    private final Timer bombTimer;
+
+    public Bomb(Player p) {
         this.xPos = p.getxPos();
         this.yPos = p.getyPos();
         this.power = 1;
-        this.board = b;
+        this.explode = false;
+
+        final Action blowBomb = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                blow();
+            }
+        };
+        this.bombTimer = new Timer(delay, blowBomb);
+        bombTimer.setCoalesce(true);
+        bombTimer.start();
     }
 
-    public void blow(Bomb bomb) {
-        for (int i = 0; i < power; ++i) {
-            for (int j = 0; j < power; ++j) {
-                if (board.getTile(i, j) == Tiles.FLOOR) {
-
-                }
-            }
-        }
+    void blow() {
+        explode = true;
     }
 
 }

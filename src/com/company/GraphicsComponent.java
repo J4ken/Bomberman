@@ -18,12 +18,12 @@ public class GraphicsComponent extends JComponent implements KeyListener{
     private Board board;
     private Player player1, player2;
     private AbstractMap<Tiles, Color> enumMap;
-    final static int TILE_SIZE = 30;
+    public final static int TILE_SIZE = 30;
 
-    public GraphicsComponent(Board board) {
+    public GraphicsComponent(Board board, Player player1, Player player2) {
         this.board = board;
-        this.player1 = new Player(1);
-        this.player2 = new Player(2);
+        this.player1 = player1;
+        this.player2 = player2;
         setColorMap();
     }
 
@@ -49,12 +49,8 @@ public class GraphicsComponent extends JComponent implements KeyListener{
                 g2d.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
-
-        System.out.print(player1.getxPos());
-
         g2d.setColor(enumMap.get(Tiles.PLAYER1));
         g2d.fillRect(player1.getxPos(), player1.getyPos(), TILE_SIZE, TILE_SIZE);
-
     }
 
     @Override
@@ -65,16 +61,20 @@ public class GraphicsComponent extends JComponent implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
         player1.keyReleased(e);
-        player1.move();
+        //player1.move();
+        System.out.printf("hej");
         player2.keyReleased(e);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         player1.keyPressed(e);
-        player1.move();
+        if (board.canMove(player1)) {
+
+            player1.move();
+            repaint();
+        }
         player2.keyPressed(e);
-        repaint();
     }
 
     @Override
