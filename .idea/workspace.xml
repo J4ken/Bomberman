@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a05b194d-b484-436e-9919-7a588feccd4d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Bomberman/com/company/Player.class" afterPath="$PROJECT_DIR$/out/production/Bomberman/com/company/Player.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Board.java" afterPath="$PROJECT_DIR$/src/com/company/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Bomb.java" afterPath="$PROJECT_DIR$/src/com/company/Bomb.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/BombermanFrame.java" afterPath="$PROJECT_DIR$/src/com/company/BombermanFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Game.java" afterPath="$PROJECT_DIR$/src/com/company/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/GraphicsComponent.java" afterPath="$PROJECT_DIR$/src/com/company/GraphicsComponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Player.java" afterPath="$PROJECT_DIR$/src/com/company/Player.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Bomberman.iws" />
@@ -490,7 +484,13 @@
       <option name="project" value="LOCAL" />
       <updated>1438373439611</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixat en kollisionshanterare och en startmeny">
+      <created>1438882716415</created>
+      <option name="number" value="00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1438882716415</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -544,7 +544,8 @@
     <MESSAGE value="lagt till klassen Action" />
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;out/production/Bomberman/com/company/Main.class&#10;&#9;src/com/company/Main.java&#10;" />
     <MESSAGE value="lagt till testing för tangentbord" />
-    <option name="LAST_COMMIT_MESSAGE" value="lagt till testing för tangentbord" />
+    <MESSAGE value="fixat en kollisionshanterare och en startmeny" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixat en kollisionshanterare och en startmeny" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
