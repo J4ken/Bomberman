@@ -25,37 +25,8 @@ public class Board {
         }
     }
 
-    public boolean canMove(Player p) {
-        switch (p.getAction()) {
-            case UP:
-                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE - 1,
-                        p.getxPos() / GraphicsComponent.TILE_SIZE) == Tiles.FLOOR) {
-                    return true;
-                }
-                return false;
-            case DOWN:
-                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE + 1,
-                        p.getxPos() / GraphicsComponent.TILE_SIZE) == Tiles.FLOOR) {
-                    return true;
-                }
-                return false;
-            case RIGHT:
-                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE,
-                        p.getxPos() / GraphicsComponent.TILE_SIZE + 1) == Tiles.FLOOR) {
-                    return true;
-                }
-                return false;
-            case LEFT:
-                if (getTile(p.getyPos() / GraphicsComponent.TILE_SIZE,
-                        p.getxPos() / GraphicsComponent.TILE_SIZE - 1) == Tiles.FLOOR) {
-                    return true;
-                }
-                return false;
-            default: break;
-
-        }
-        System.out.print("NOOOOOOOOOOOO!");
-        return false;
+    public void setTile (int xPos, int yPos, Tiles t) {
+        board[yPos][xPos] = t;
     }
 
     public Tiles getTile(int height, int width) {

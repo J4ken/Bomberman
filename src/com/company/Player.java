@@ -13,6 +13,7 @@ public class Player {
     private Action action;
     private Image image;
 
+
     public Player(int player){
         speed = 1;
         bombs = 1;
@@ -23,12 +24,14 @@ public class Player {
 
         switch (player) {
             case 1:
-                this.xPos = GraphicsComponent.TILE_SIZE;
-                this.yPos = GraphicsComponent.TILE_SIZE;
+                xPos = 1;
+                yPos = 1;
+                action = Action.STAND;
                 break;
             case 2:
-                this.xPos = 5;
-                this.yPos = 5;
+                xPos = 5;
+                yPos = 5;
+                action = Action.STAND;
                 break;
         }
     }
@@ -55,16 +58,16 @@ public class Player {
     public void move() {
         switch (action) {
             case UP:
-                yPos -= 30;
+                yPos -= 1;
                 break;
             case DOWN:
-                yPos += 30;
+                yPos += 1;
                 break;
             case LEFT:
-                xPos -= 30;
+                xPos -= 1;
                 break;
             case RIGHT:
-                xPos += 30;
+                xPos += 1;
                 break;
         }
     }
@@ -87,6 +90,10 @@ public class Player {
         if (key == up) action = Action.STAND;
         if (key == down) action = Action.STAND;
         if (key == placeBomb) action = Action.BOMB;
+    }
+
+    public void setAction(Action a) {
+        action = a;
     }
 
     public Action getAction() { return action; }

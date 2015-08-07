@@ -31,8 +31,17 @@ public class Bomb {
         bombTimer.start();
     }
 
+    public int getyPos() {
+        return yPos;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
     void blow() {
         explode = true;
+        System.out.println("BLOW!");
     }
 
 }
