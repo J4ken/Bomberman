@@ -34,6 +34,7 @@ public class Game extends JFrame implements KeyListener{
         setUpFrame();
     }
 
+    // skapar spelramen
     private void setUpFrame() {
         frame = new JFrame("Bomberman");
         game = new JPanel();
@@ -66,6 +67,8 @@ public class Game extends JFrame implements KeyListener{
                 frame.requestFocus();
             }
         });
+        System.out.println(player1.position.x);
+        System.out.println(player1.position.y);
     }
 
     @Override
@@ -75,68 +78,73 @@ public class Game extends JFrame implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        player2.keyPressed(e);
-        player1.keyPressed(e);
-        if (player1.getAction() == Action.BOMB) {
-            Bomb bomb = new Bomb(player1);
-            bombs.add(bomb);
-            board.setTile(bomb.getxPos(), bomb.getyPos(), Tiles.BOMB);
+        int key = e.getKeyCode();
+
+        if (player1.controls.contains(key)) {
+            player1.keyPressed(e);
+            makeMove(player1);
         }
-        if (canMove(player2)){
-            player2.move();
-            player2.setAction(Action.STAND);
-        }
-        if (canMove(player1)) {
-            player1.move();
-            player1.setAction(Action.STAND);
+        if (player2.controls.contains(key)) {
+            player2.keyPressed(e);
+            makeMove(player2);
         }
         gc.repaint();
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        player1.keyReleased(e);
-        player2.keyReleased(e);
+        int key = e.getKeyCode();
+
+        if (player1.controls.contains(key)) {
+            player1.keyReleased(e);
+        }
+        if (player2.controls.contains(key)) {
+            player2.keyReleased(e);
+        }
     }
 
-    private boolean canMove(Player p) {
-        if (p.getAction() != Action.STAND) {
-            int otherPlayerxPos;
-            int otherPlayeryPos;
-            if (p == player1) {
-                otherPlayerxPos = player2.getxPos();
-                otherPlayeryPos = player2.getyPos();
-            }
-            else {
-                otherPlayerxPos = player1.getxPos();
-                otherPlayeryPos = player1.getyPos();
-            }
-            switch (p.getAction()) {
-                case UP:
-                    if (board.getTile(p.getyPos()- 1, p.getxPos()) == Tiles.FLOOR
-                            && (p.getyPos() - 1 != otherPlayeryPos && p.getxPos() != otherPlayerxPos)) {
-                        return true;
-                    }
-                    return false;
-                case DOWN:
-                    if (board.getTile(p.getyPos() + 1, p.getxPos()) == Tiles.FLOOR) {
-                        return true;
-                    }
-                    return false;
-                case RIGHT:
-                    if (board.getTile(p.getyPos(), p.getxPos() + 1) == Tiles.FLOOR) {
-                        return true;
-                    }
-                    return false;
-                case LEFT:
-                    if (board.getTile(p.getyPos(), p.getxPos()- 1) == Tiles.FLOOR) {
-                        return true;
-                    }
-                    return false;
-                default: break;
-
+    public void checkBombs() {
+        for (Bomb b : bombs) {
+            if (b.isExplode()) {
+                // spränger bomben
+                bombs.remove(b);
             }
         }
-        return false;
+    }
+
+
+    // hanterar den Action som spelaren vill utföra
+    private void makeMove(Player p) {
+        if (p.getAction() != Action.STAND) {
+
+            // kollar om spelaren vill placera ut en bomb
+            if (p.getAction() == Action.BOMB) {
+                Bomb b = new Bomb(p);
+                bombs.add(b);
+                board.setTile(b.getxPos(), b.getyPos(), Tiles.BOMB);
+            }
+
+            // annars vill spelaren röra på sig i någon riktining
+            else {
+                Point initialPosition =  new Point(p.position);
+                Player otherPlayer;
+
+                if (p == player1) {
+                    otherPlayer = player2;
+                }
+                else {
+                    otherPlayer = player1;
+                }
+
+                p.movePlayer();
+
+                // kollar om rutan spelaren vill röra sig till är ledig
+                // om inte den är det så ändras inte spelarens position
+                if (board.getTile(p.position.x, p.position.y) != Tiles.FLOOR
+                        || p.position.equals(otherPlayer.position)) {
+                    p.position.setLocation(initialPosition);
+                }
+            }
+        }
     }
 }

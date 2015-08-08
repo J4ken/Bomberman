@@ -2,36 +2,36 @@ package com.company;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Jacob on 2015-07-27.
  */
 public class Player {
 
-    private int xPos, yPos, bombs, health, power, speed,
+    private int bombs, health, power, speed,
     left, right, up, down, placeBomb;
     private Action action;
     private Image image;
+    Point position;
+    Set<Integer> controls = new HashSet<Integer>(5);
 
-
-    public Player(int player){
+    public Player(int playerID){
         speed = 1;
         bombs = 1;
         power = 1;
         health = 3;
+        action = Action.STAND;
 
-        initializeControls(player);
+        initializeControls(playerID);
 
-        switch (player) {
+        switch (playerID) {
             case 1:
-                xPos = 1;
-                yPos = 1;
-                action = Action.STAND;
+                position = new Point(1, 1);
                 break;
             case 2:
-                xPos = 5;
-                yPos = 5;
-                action = Action.STAND;
+                position = new Point(5, 5);
                 break;
         }
     }
@@ -53,21 +53,26 @@ public class Player {
                 placeBomb = KeyEvent.VK_E;
                 break;
         }
+        controls.add(up);
+        controls.add(down);
+        controls.add(left);
+        controls.add(right);
+        controls.add(placeBomb);
     }
 
-    public void move() {
+    public void movePlayer() {
         switch (action) {
             case UP:
-                yPos -= 1;
+                position.y -= 1;
                 break;
             case DOWN:
-                yPos += 1;
+                position.y += 1;
                 break;
             case LEFT:
-                xPos -= 1;
+                position.x -= 1;
                 break;
             case RIGHT:
-                xPos += 1;
+                position.x += 1;
                 break;
         }
     }
@@ -96,22 +101,8 @@ public class Player {
         action = a;
     }
 
-    public Action getAction() { return action; }
-
-    public int getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(int xPos) {
-        this.xPos = xPos;
-    }
-
-    public int getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(int yPos) {
-        this.yPos = yPos;
+    public Action getAction() {
+        return action;
     }
 
     public int getBombs() {

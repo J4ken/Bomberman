@@ -46,14 +46,14 @@ public class GraphicsComponent extends JComponent {
         for (int i = 0; i < board.getHeight(); ++i) {
             for (int j = 0; j < board.getWidth(); ++j) {
                 g2d.setColor(enumMap.get(board.getTile(j, i)));
-                g2d.fillRect(i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                g2d.fillRect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
         g2d.setColor(enumMap.get(Tiles.PLAYER1));
-        g2d.fillRect(player1.getxPos() * TILE_SIZE, player1.getyPos() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        g2d.fillRect(player1.position.x * TILE_SIZE, player1.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
         g2d.setColor(enumMap.get(Tiles.PLAYER2));
-        g2d.fillRect(player2.getxPos() * TILE_SIZE, player2.getyPos() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        g2d.fillRect(player2.position.x * TILE_SIZE, player2.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     @Override
@@ -72,11 +72,11 @@ public class GraphicsComponent extends JComponent {
         player2.keyPressed(e);
         player1.keyPressed(e);
         if (board.canMove(player2)){
-            player2.move();
+            player2.movePlayer();
             player2.setAction(Action.STAND);
         }
         if (board.canMove(player1)) {
-            player1.move();
+            player1.movePlayer();
             player1.setAction(Action.STAND);
         }
         repaint();

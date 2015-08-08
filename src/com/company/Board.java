@@ -23,14 +23,16 @@ public class Board {
                 }
             }
         }
+
+        board[1][3] = Tiles.BOX;
     }
 
     public void setTile (int xPos, int yPos, Tiles t) {
         board[yPos][xPos] = t;
     }
 
-    public Tiles getTile(int height, int width) {
-        return board[height][width];
+    public Tiles getTile(int x, int y) {
+        return board[y][x];
     }
 
     public int getWidth() {

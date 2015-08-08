@@ -15,10 +15,10 @@ public class Bomb {
     private final Timer bombTimer;
 
     public Bomb(Player p) {
-        this.xPos = p.getxPos();
-        this.yPos = p.getyPos();
-        this.power = 1;
-        this.explode = false;
+        xPos = p.position.x;
+        yPos = p.position.y;
+        power = 1;
+        explode = false;
 
         final Action blowBomb = new AbstractAction() {
             @Override
@@ -26,9 +26,13 @@ public class Bomb {
                 blow();
             }
         };
-        this.bombTimer = new Timer(delay, blowBomb);
+        bombTimer = new Timer(delay, blowBomb);
         bombTimer.setCoalesce(true);
         bombTimer.start();
+    }
+
+    public boolean isExplode() {
+        return explode;
     }
 
     public int getyPos() {
