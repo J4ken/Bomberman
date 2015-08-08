@@ -15,6 +15,7 @@ public class Player {
     private PlayerAction action;
     private Image image;
     Point position;
+    private boolean droppingBomb, moving;
     Set<Integer> controls = new HashSet<Integer>(5);
 
     public Player(int playerID){
@@ -22,6 +23,8 @@ public class Player {
         bombs = 1;
         power = 1;
         health = 3;
+        droppingBomb = false;
+        moving = false;
         action = PlayerAction.STAND;
 
         initializeControls(playerID);
@@ -61,40 +64,43 @@ public class Player {
     }
 
     public void movePlayer() {
-        switch (action) {
-            case UP:
-                position.y -= 1;
-                break;
-            case DOWN:
-                position.y += 1;
-                break;
-            case LEFT:
-                position.x -= 1;
-                break;
-            case RIGHT:
-                position.x += 1;
-                break;
+        if (!moving) {
+            switch (action) {
+                case UP:
+                    position.y -= 1;
+                    break;
+                case DOWN:
+                    position.y += 1;
+                    break;
+                case LEFT:
+                    position.x -= 1;
+                    break;
+                case RIGHT:
+                    position.x += 1;
+                    break;
+            }
+            action = PlayerAction.STAND;
         }
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-
+        moving = true;
         if (key == left) action = PlayerAction.LEFT;
         if (key == right) action = PlayerAction.RIGHT;
         if (key == up) action = PlayerAction.UP;
         if (key == down) action = PlayerAction.DOWN;
-        if (key == placeBomb) action = PlayerAction.BOMB;
+        if (key == placeBomb) droppingBomb = true;
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-
-        if (key == left) action = PlayerAction.STAND;
+        moving = false;
+        /*if (key == left) action = PlayerAction.STAND;
         if (key == right) action = PlayerAction.STAND;
         if (key == up) action = PlayerAction.STAND;
         if (key == down) action = PlayerAction.STAND;
-        if (key == placeBomb) action = PlayerAction.BOMB;
+        if (key == placeBomb) action = PlayerAction.BOMB;*/
     }
 
     public void setAction(PlayerAction a) {
@@ -103,6 +109,14 @@ public class Player {
 
     public PlayerAction getAction() {
         return action;
+    }
+
+    public boolean isDroppingBomb() {
+        return droppingBomb;
+    }
+
+    public void setDroppingBomb(boolean droppingBomb) {
+        this.droppingBomb = droppingBomb;
     }
 
     public int getBombs() {

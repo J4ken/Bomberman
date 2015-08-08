@@ -60,31 +60,4 @@ public class GraphicsComponent extends JComponent {
     public Dimension getPreferredSize() {
         return new Dimension(TILE_SIZE * board.getWidth(), TILE_SIZE * board.getHeight());
     }
-
-    /*@Override
-    public void keyReleased(KeyEvent e) {
-        player1.keyReleased(e);
-        player2.keyReleased(e);
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        player2.keyPressed(e);
-        player1.keyPressed(e);
-        if (board.canMove(player2)){
-            player2.movePlayer();
-            player2.setAction(PlayerAction.STAND);
-        }
-        if (board.canMove(player1)) {
-            player1.movePlayer();
-            player1.setAction(PlayerAction.STAND);
-        }
-        repaint();
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {
-
-    }*/
 }

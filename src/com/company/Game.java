@@ -43,7 +43,7 @@ public class Game extends JFrame implements KeyListener{
             }
         };
 
-        loopTimer = new Timer(250, doOneStep);
+        loopTimer = new Timer(30, doOneStep);
         loopTimer.setInitialDelay(0);
         loopTimer.setCoalesce(true);
         loopTimer.start();
@@ -84,8 +84,6 @@ public class Game extends JFrame implements KeyListener{
                 frame.requestFocus();
             }
         });
-        System.out.println(player1.position.x);
-        System.out.println(player1.position.y);
     }
 
     @Override
@@ -99,17 +97,10 @@ public class Game extends JFrame implements KeyListener{
 
         if (player1.controls.contains(key)) {
             player1.keyPressed(e);
-            makeMove(player1);
         }
         if (player2.controls.contains(key)) {
             player2.keyPressed(e);
-            makeMove(player2);
         }
-        gc.repaint();
-    }
-
-    private void gameLoop() {
-        checkBombs();
     }
 
     @Override
@@ -124,12 +115,18 @@ public class Game extends JFrame implements KeyListener{
         }
     }
 
+    private void gameLoop() {
+        makeMove(player1);
+        makeMove(player2);
+        checkBombs();
+        gc.repaint();
+    }
+
     public void checkBombs() {
         List<Bomb> l = new ArrayList<Bomb>(bombs);
         for (Bomb b : l) {
             if (b.isExplode()) {
                 // spränger bomben
-                bombs.remove(b);
                 blowBomb(b);
             }
         }
@@ -137,11 +134,12 @@ public class Game extends JFrame implements KeyListener{
 
     private void blowBomb(Bomb b) {
         Tiles t;
+        bombs.remove(b);
         board.setTile(b.getxPos(), b.getyPos(), Tiles.FIRE);
 
         // lägger in FIRE-Tiles på alla platser där bomben exploderar
         for (int i = 0; i < b.getPower(); ++i) {
-
+            if (i == 0) continue;
             t = board.getTile(b.getxPos(), b.getyPos() + i);
             switch (t) {
 
@@ -159,6 +157,7 @@ public class Game extends JFrame implements KeyListener{
 
                 // om vi spränger en bomb så ska den explodera
                 case BOMB:
+                    board.setTile(b.getxPos(), b.getyPos() + i, Tiles.FIRE);
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() + i) {
                             bomb.blow();
@@ -186,6 +185,7 @@ public class Game extends JFrame implements KeyListener{
                     i = b.getPower();
                     break;
                 case BOMB:
+                    board.setTile(b.getxPos(), b.getyPos() - i, Tiles.FIRE);
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() - i) {
                             bomb.blow();
@@ -211,6 +211,7 @@ public class Game extends JFrame implements KeyListener{
                     i = b.getPower();
                     break;
                 case BOMB:
+                    board.setTile(b.getxPos() + i, b.getyPos(), Tiles.FIRE);
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() + i && bomb.getyPos() == b.getyPos() + i) {
                             bomb.blow();
@@ -236,6 +237,7 @@ public class Game extends JFrame implements KeyListener{
                     i = b.getPower();
                     break;
                 case BOMB:
+                    board.setTile(b.getxPos() - i, b.getyPos(), Tiles.FIRE);
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() - i && bomb.getyPos() == b.getyPos() + i) {
                             bomb.blow();
@@ -249,19 +251,26 @@ public class Game extends JFrame implements KeyListener{
         }
     }
 
+    private void removeExplosions(Bomb b) {
+
+    }
+
     // hanterar den PlayerAction som spelaren vill utföra
     private void makeMove(Player p) {
-        if (p.getAction() != PlayerAction.STAND) {
 
-            // kollar om spelaren vill placera ut en bomb
-            if (p.getAction() == PlayerAction.BOMB) {
+        // kollar om spelaren vill placera ut en bomb
+        if (p.isDroppingBomb()) {
+            if (board.getTile(p.position.x, p.position.y) == Tiles.FLOOR) {
                 Bomb b = new Bomb(p);
                 bombs.add(b);
                 board.setTile(b.getxPos(), b.getyPos(), Tiles.BOMB);
+                p.setDroppingBomb(false);
             }
+        }
 
-            // annars vill spelaren röra på sig i någon riktining
-            else {
+        // annars vill spelaren röra på sig i någon riktining
+        else {
+            if (p.getAction() != PlayerAction.STAND) {
                 Point initialPosition =  new Point(p.position);
                 Player otherPlayer;
 
@@ -282,5 +291,6 @@ public class Game extends JFrame implements KeyListener{
                 }
             }
         }
+
     }
 }

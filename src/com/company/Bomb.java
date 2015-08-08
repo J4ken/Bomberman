@@ -23,6 +23,7 @@ public class Bomb {
         final Action blowBomb = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                bombTimer.stop();
                 blow();
             }
         };
