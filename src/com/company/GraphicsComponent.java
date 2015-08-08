@@ -73,11 +73,11 @@ public class GraphicsComponent extends JComponent {
         player1.keyPressed(e);
         if (board.canMove(player2)){
             player2.movePlayer();
-            player2.setAction(Action.STAND);
+            player2.setAction(PlayerAction.STAND);
         }
         if (board.canMove(player1)) {
             player1.movePlayer();
-            player1.setAction(Action.STAND);
+            player1.setAction(PlayerAction.STAND);
         }
         repaint();
 

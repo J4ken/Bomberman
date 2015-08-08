@@ -1,13 +1,15 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+
 
 
 /**
@@ -19,9 +21,13 @@ public class Game extends JFrame implements KeyListener{
     private JButton play, quit;
     private CardLayout card;
     private Board board;
+    private Timer loopTimer;
+    private Set<Point> dontRemove = new HashSet<Point>();
+    private Map<Point, Integer> explosionCounter = new HashMap<Point, Integer>();
     private List<Bomb> bombs = new ArrayList<Bomb>();
     private Player player1, player2;
     private GraphicsComponent gc;
+    private final static int BLOW_DIRECTIONS = 4;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
 
@@ -30,6 +36,17 @@ public class Game extends JFrame implements KeyListener{
         player1 = new Player(1);
         player2 = new Player(2);
         gc = new GraphicsComponent(board, player1, player2);
+        final Action doOneStep = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                gameLoop();
+            }
+        };
+
+        loopTimer = new Timer(250, doOneStep);
+        loopTimer.setInitialDelay(0);
+        loopTimer.setCoalesce(true);
+        loopTimer.start();
 
         setUpFrame();
     }
@@ -91,6 +108,10 @@ public class Game extends JFrame implements KeyListener{
         gc.repaint();
     }
 
+    private void gameLoop() {
+        checkBombs();
+    }
+
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
@@ -104,21 +125,136 @@ public class Game extends JFrame implements KeyListener{
     }
 
     public void checkBombs() {
-        for (Bomb b : bombs) {
+        List<Bomb> l = new ArrayList<Bomb>(bombs);
+        for (Bomb b : l) {
             if (b.isExplode()) {
                 // spränger bomben
                 bombs.remove(b);
+                blowBomb(b);
             }
         }
     }
 
+    private void blowBomb(Bomb b) {
+        Tiles t;
+        board.setTile(b.getxPos(), b.getyPos(), Tiles.FIRE);
 
-    // hanterar den Action som spelaren vill utföra
+        // lägger in FIRE-Tiles på alla platser där bomben exploderar
+        for (int i = 0; i < b.getPower(); ++i) {
+
+            t = board.getTile(b.getxPos(), b.getyPos() + i);
+            switch (t) {
+
+                // ersätter FLOOR med FIRE
+                case FLOOR:
+                    board.setTile(b.getxPos(), b.getyPos() + i, Tiles.FIRE);
+                    break;
+
+                // om vi spränger en låda så ska loopen brytas och lådan försvinner
+                case BOX:
+                    board.setTile(b.getxPos(), b.getyPos() + i, Tiles.FIRE);
+                    // fixa så att en powerup kommer fram
+                    i = b.getPower();
+                    break;
+
+                // om vi spränger en bomb så ska den explodera
+                case BOMB:
+                    for (Bomb bomb : bombs) {
+                        if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() + i) {
+                            bomb.blow();
+                            break;
+                        }
+                    }
+
+                // om det redan ligger en FIRE-Tile så ska vi lägga till den i undantagsllistan
+                case FIRE:
+                    Point p = new Point(b.getxPos(), b.getyPos());
+                    dontRemove.add(p);
+            }
+        }
+
+        for (int i = 0; i < b.getPower(); ++i) {
+            if (i == 0) continue;
+            t = board.getTile(b.getxPos(), b.getyPos() - i);
+            switch (t) {
+                case FLOOR:
+                    board.setTile(b.getxPos(), b.getyPos() - i, Tiles.FIRE);
+                    break;
+                case BOX:
+                    board.setTile(b.getxPos(), b.getyPos() - i, Tiles.FIRE);
+                    // fixa så att en powerup kommer fram
+                    i = b.getPower();
+                    break;
+                case BOMB:
+                    for (Bomb bomb : bombs) {
+                        if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() - i) {
+                            bomb.blow();
+                            break;
+                        }
+                    }
+                case FIRE:
+                    Point p = new Point(b.getxPos(), b.getyPos() - i);
+                    dontRemove.add(p);
+            }
+        }
+
+        for (int i = 0; i < b.getPower(); ++i) {
+            if (i == 0) continue;
+            t = board.getTile(b.getxPos() + i, b.getyPos());
+            switch (t) {
+                case FLOOR:
+                    board.setTile(b.getxPos() + i, b.getyPos(), Tiles.FIRE);
+                    break;
+                case BOX:
+                    board.setTile(b.getxPos() + i, b.getyPos(), Tiles.FIRE);
+                    // fixa så att en powerup kommer fram
+                    i = b.getPower();
+                    break;
+                case BOMB:
+                    for (Bomb bomb : bombs) {
+                        if (bomb.getxPos() == b.getxPos() + i && bomb.getyPos() == b.getyPos() + i) {
+                            bomb.blow();
+                            break;
+                        }
+                    }
+                case FIRE:
+                    Point p = new Point(b.getxPos() + i, b.getyPos());
+                    dontRemove.add(p);
+            }
+        }
+
+        for (int i = 0; i < b.getPower(); ++i) {
+            if (i == 0) continue;
+            t = board.getTile(b.getxPos() - i, b.getyPos());
+            switch (t) {
+                case FLOOR:
+                    board.setTile(b.getxPos() - i, b.getyPos(), Tiles.FIRE);
+                    break;
+                case BOX:
+                    board.setTile(b.getxPos() - i, b.getyPos(), Tiles.FIRE);
+                    // fixa så att en powerup kommer fram
+                    i = b.getPower();
+                    break;
+                case BOMB:
+                    for (Bomb bomb : bombs) {
+                        if (bomb.getxPos() == b.getxPos() - i && bomb.getyPos() == b.getyPos() + i) {
+                            bomb.blow();
+                            break;
+                        }
+                    }
+                case FIRE:
+                    Point p = new Point(b.getxPos() - i, b.getyPos());
+                    dontRemove.add(p);
+            }
+        }
+    }
+
+    // hanterar den PlayerAction som spelaren vill utföra
     private void makeMove(Player p) {
-        if (p.getAction() != Action.STAND) {
+        if (p.getAction() != PlayerAction.STAND) {
 
             // kollar om spelaren vill placera ut en bomb
-            if (p.getAction() == Action.BOMB) {
+            if (p.getAction() == PlayerAction.BOMB) {
                 Bomb b = new Bomb(p);
                 bombs.add(b);
                 board.setTile(b.getxPos(), b.getyPos(), Tiles.BOMB);

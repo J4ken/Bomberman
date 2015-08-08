@@ -12,7 +12,7 @@ public class Player {
 
     private int bombs, health, power, speed,
     left, right, up, down, placeBomb;
-    private Action action;
+    private PlayerAction action;
     private Image image;
     Point position;
     Set<Integer> controls = new HashSet<Integer>(5);
@@ -22,7 +22,7 @@ public class Player {
         bombs = 1;
         power = 1;
         health = 3;
-        action = Action.STAND;
+        action = PlayerAction.STAND;
 
         initializeControls(playerID);
 
@@ -80,28 +80,28 @@ public class Player {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == left) action = Action.LEFT;
-        if (key == right) action = Action.RIGHT;
-        if (key == up) action = Action.UP;
-        if (key == down) action = Action.DOWN;
-        if (key == placeBomb) action = Action.BOMB;
+        if (key == left) action = PlayerAction.LEFT;
+        if (key == right) action = PlayerAction.RIGHT;
+        if (key == up) action = PlayerAction.UP;
+        if (key == down) action = PlayerAction.DOWN;
+        if (key == placeBomb) action = PlayerAction.BOMB;
     }
 
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == left) action = Action.STAND;
-        if (key == right) action = Action.STAND;
-        if (key == up) action = Action.STAND;
-        if (key == down) action = Action.STAND;
-        if (key == placeBomb) action = Action.BOMB;
+        if (key == left) action = PlayerAction.STAND;
+        if (key == right) action = PlayerAction.STAND;
+        if (key == up) action = PlayerAction.STAND;
+        if (key == down) action = PlayerAction.STAND;
+        if (key == placeBomb) action = PlayerAction.BOMB;
     }
 
-    public void setAction(Action a) {
+    public void setAction(PlayerAction a) {
         action = a;
     }
 
-    public Action getAction() {
+    public PlayerAction getAction() {
         return action;
     }
 

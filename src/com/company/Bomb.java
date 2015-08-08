@@ -17,7 +17,7 @@ public class Bomb {
     public Bomb(Player p) {
         xPos = p.position.x;
         yPos = p.position.y;
-        power = 1;
+        power = 2;
         explode = false;
 
         final Action blowBomb = new AbstractAction() {
@@ -33,6 +33,10 @@ public class Bomb {
 
     public boolean isExplode() {
         return explode;
+    }
+
+    public int getPower() {
+        return power;
     }
 
     public int getyPos() {
