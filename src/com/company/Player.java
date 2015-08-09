@@ -94,8 +94,8 @@ public class Player {
     }
 
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
         moving = false;
+        droppingBomb = false;
         /*if (key == left) action = PlayerAction.STAND;
         if (key == right) action = PlayerAction.STAND;
         if (key == up) action = PlayerAction.STAND;
