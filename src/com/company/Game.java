@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.DelayQueue;
 
 
 /**
@@ -27,6 +26,7 @@ public class Game extends JFrame implements KeyListener{
     private GraphicsComponent gc;
     private List<Bomb> bombs = new ArrayList<Bomb>();
     private Set<Point> dontRemove = new HashSet<Point>();
+    private boolean draw, gameOver;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
 
@@ -47,6 +47,8 @@ public class Game extends JFrame implements KeyListener{
 
     public Game(final Board board) throws HeadlessException {
         this.board = board;
+        draw = false;
+        gameOver = false;
         player1 = new Player(1);
         player2 = new Player(2);
         gc = new GraphicsComponent(board, player1, player2);
@@ -132,10 +134,47 @@ public class Game extends JFrame implements KeyListener{
     }
 
     private void gameLoop() {
+        movePlayers();
+        checkBombs();
+        checkCollision();
+        checkConditions();
+        gc.repaint();
+    }
+
+    private void checkConditions() {
+        if (player1.getHealth() == 0) {
+            if (player2.getHealth() > 0) {
+                System.out.printf("PLAYER 2 VINNER!!!!!");
+                player2.setWinner();
+            }
+            else draw = true;
+        }
+
+        if (player2.getHealth() == 0) {
+            if (player1.getHealth() > 0) {
+                System.out.printf("PLAYER 1 VINNER!!!!!");
+                player1.setWinner();
+            }
+        }
+    }
+
+    private void movePlayers() {
         makeMove(player1);
         makeMove(player2);
-        checkBombs();
-        gc.repaint();
+    }
+
+    private void checkCollision() {
+        Point p = player1.position;
+        if (board.getTile(p.x, p.y) == Tiles.FIRE) {
+            player1.loseHealth();
+            player1.position.x = 1;
+            player1.position.y = 1;
+        }
+
+        p = player2.position;
+        if (board.getTile(p.x, p.y) == Tiles.FIRE) {
+            player2.loseHealth();
+        }
     }
 
     public void checkBombs() {
@@ -280,7 +319,6 @@ public class Game extends JFrame implements KeyListener{
         // kollar om spelaren vill placera ut en bomb
         if (p.isDroppingBomb()) {
             if (board.getTile(p.position.x, p.position.y) == Tiles.FLOOR) {
-                System.out.printf("placerar bomb");
                 Bomb b = new Bomb(p);
                 bombs.add(b);
                 board.setTile(b.getxPos(), b.getyPos(), Tiles.BOMB);

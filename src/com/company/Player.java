@@ -15,7 +15,7 @@ public class Player {
     private PlayerAction action;
     private Image image;
     Point position;
-    private boolean droppingBomb, moving;
+    private boolean droppingBomb, moving, winner;
     Set<Integer> controls = new HashSet<Integer>(5);
 
     public Player(int playerID){
@@ -26,6 +26,7 @@ public class Player {
         droppingBomb = false;
         moving = false;
         action = PlayerAction.STAND;
+        winner = false;
 
         initializeControls(playerID);
 
@@ -107,6 +108,10 @@ public class Player {
         action = a;
     }
 
+    public void setWinner() {
+        winner = true;
+    }
+
     public PlayerAction getAction() {
         return action;
     }
@@ -117,6 +122,10 @@ public class Player {
 
     public void setDroppingBomb(boolean droppingBomb) {
         this.droppingBomb = droppingBomb;
+    }
+
+    public void loseHealth() {
+        health -= 1;
     }
 
     public int getBombs() {
