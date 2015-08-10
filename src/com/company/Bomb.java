@@ -22,7 +22,7 @@ public class Bomb {
         this.board = board;
         xPos = p.position.x;
         yPos = p.position.y;
-        power = 2;
+        power = 3;
         explode = false;
 
         final Action blowBomb = new AbstractAction() {
@@ -55,7 +55,6 @@ public class Bomb {
 
     public void blow() {
         explode = true;
-        System.out.println("BLOW!");
     }
 
     /*public void blowBomb() {
