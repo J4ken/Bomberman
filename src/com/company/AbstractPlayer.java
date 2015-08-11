@@ -6,60 +6,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Jacob on 2015-07-27.
+ * Created by Håkan on 2015-08-11.
  */
-public class Player {
+public abstract class AbstractPlayer {
+    protected int bombs, health, power, speed,
+            left, right, up, down, placeBomb;
+    protected String name;
+    protected PlayerAction action;
+    protected Image image;
+    protected Point position = new Point(0,0);
+    protected boolean droppingBomb, moving, winner;
+    protected Set<Integer> controls = new HashSet<Integer>(5);
 
-    private int bombs, health, power, speed,
-    left, right, up, down, placeBomb;
-    private PlayerAction action;
-    private Image image;
-    private String name;
-    Point position;
-    private boolean droppingBomb, moving, winner;
-    Set<Integer> controls = new HashSet<Integer>(5);
-
-    public Player(int playerID){
+    public AbstractPlayer(){
         speed = 1;
         bombs = 1;
         power = 1;
         health = 3;
+        name = "";
         droppingBomb = false;
         moving = false;
         action = PlayerAction.STAND;
         winner = false;
-
-        initializeControls(playerID);
-
-        switch (playerID) {
-            case 1:
-                position = new Point(1, 1);
-                break;
-            case 2:
-                position = new Point(5, 5);
-                break;
-        }
     }
 
-
-
-    private void initializeControls(int player) {
-        switch (player) {
-            case 1:
-                up = KeyEvent.VK_UP;
-                down = KeyEvent.VK_DOWN;
-                left = KeyEvent.VK_LEFT;
-                right = KeyEvent.VK_RIGHT;
-                placeBomb = KeyEvent.VK_SPACE;
-                break;
-            case 2:
-                up = KeyEvent.VK_W;
-                down = KeyEvent.VK_S;
-                left = KeyEvent.VK_A;
-                right = KeyEvent.VK_D;
-                placeBomb = KeyEvent.VK_E;
-                break;
-        }
+    public void initializeControls(int up, int down, int left, int right, int placeBomb) {
+        this.up = up;
+        this.down = down;
+        this.left = left;
+        this.right = right;
+        this.placeBomb = placeBomb;
         controls.add(up);
         controls.add(down);
         controls.add(left);
@@ -98,13 +74,15 @@ public class Player {
     }
 
     public void keyReleased(KeyEvent e) {
+        int key = e.getKeyCode();
         moving = false;
         droppingBomb = false;
         /*if (key == left) action = PlayerAction.STAND;
         if (key == right) action = PlayerAction.STAND;
         if (key == up) action = PlayerAction.STAND;
         if (key == down) action = PlayerAction.STAND;
-        if (key == placeBomb) action = PlayerAction.BOMB;*/
+        if (key == placeBomb) action = PlayerAction.BOMB;
+    */
     }
 
     public void setAction(PlayerAction a) {
@@ -125,6 +103,15 @@ public class Player {
 
     public PlayerAction getAction() {
         return action;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(int x, int y) {
+        this.position.x = x;
+        this.position.y = y;
     }
 
     public boolean isDroppingBomb() {

@@ -18,7 +18,7 @@ public class Bomb {
     private Board board;
     private final Timer bombTimer;
 
-    public Bomb(Player p) {
+    public Bomb(AbstractPlayer p) {
         this.board = board;
         xPos = p.position.x;
         yPos = p.position.y;

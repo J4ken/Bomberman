@@ -15,14 +15,16 @@ import java.util.List;
  * Created by Håkan on 2015-07-31.
  */
 public class Game extends JFrame implements KeyListener{
+    private AbstractPlayer player1, player2;
+
     private JFrame frame;
     private Queue<List> explosionsToRemove = new ArrayDeque<List>();
-    private JPanel game, start;
+    private JPanel game, start, score;
     private JButton play, quit;
     private CardLayout card;
     private Board board;
     private Timer loopTimer;
-    private Player player1, player2;
+    //private Player player1, player2;
     private GraphicsComponent gc;
     private List<Bomb> bombs = new ArrayList<Bomb>();
     private Set<Point> dontRemove = new HashSet<Point>();
@@ -46,11 +48,15 @@ public class Game extends JFrame implements KeyListener{
     };
 
     public Game(final Board board) throws HeadlessException {
+        player1 = new Player1();
+        player2 = new Player2();
         this.board = board;
         draw = false;
         gameOver = false;
-        player1 = new Player(1);
-        player2 = new Player(2);
+        //player1 = new Player(1);
+        //player1.setName("Player 1");
+        //player2 = new Player(2);
+        //player2.setName("Player 2");
         gc = new GraphicsComponent(board, player1, player2);
         final Action doOneStep = new AbstractAction() {
             @Override
@@ -99,6 +105,7 @@ public class Game extends JFrame implements KeyListener{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 card.show(frame.getContentPane(), "game");
+                //frame.pack();
                 frame.requestFocus();
             }
         });
@@ -167,8 +174,6 @@ public class Game extends JFrame implements KeyListener{
         Point p = player1.position;
         if (board.getTile(p.x, p.y) == Tiles.FIRE) {
             player1.loseHealth();
-            player1.position.x = 1;
-            player1.position.y = 1;
         }
 
         p = player2.position;
@@ -315,7 +320,7 @@ public class Game extends JFrame implements KeyListener{
     }
 
     // hanterar den PlayerAction som spelaren vill utföra
-    private void makeMove(Player p) {
+    private void makeMove(AbstractPlayer p) {
         // kollar om spelaren vill placera ut en bomb
         if (p.isDroppingBomb()) {
             if (board.getTile(p.position.x, p.position.y) == Tiles.FLOOR) {
@@ -330,7 +335,8 @@ public class Game extends JFrame implements KeyListener{
         else {
             if (p.getAction() != PlayerAction.STAND) {
                 Point initialPosition =  new Point(p.position);
-                Player otherPlayer;
+                AbstractPlayer otherPlayer;
+                //Player otherPlayer;
 
                 if (p == player1) {
                     otherPlayer = player2;
