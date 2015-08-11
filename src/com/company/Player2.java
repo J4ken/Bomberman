@@ -13,8 +13,8 @@ public class Player2 extends AbstractPlayer{
     protected Player2() {
         super();
         this.name = "Player 2";
-        this.position.x = 10;
-        this.position.y = 10;
+        this.position.x = 13;
+        this.position.y = 12;
         initializeControls(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_E);
     }
 

@@ -15,7 +15,7 @@ public class Player1 extends AbstractPlayer {
         super();
         this.name = "Player 1";
         this.position.x = 1;
-        this.position.y = 1;
+        this.position.y = 2;
         initializeControls(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
     }
 

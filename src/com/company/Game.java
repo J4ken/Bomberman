@@ -49,7 +49,7 @@ public class Game extends JFrame implements KeyListener{
 
     public Game(final Board board) throws HeadlessException {
         player1 = Player1.getInstance();
-        player2 = new Player2();
+        player2 = Player2.getInstance();
         this.board = board;
         draw = false;
         gameOver = false;
