@@ -17,12 +17,14 @@ import java.util.EnumMap;
 public class GraphicsComponent extends JComponent {
     private Board board;
     private AbstractPlayer player1, player2;
-    //private Player player1, player2;
     private AbstractMap<Tiles, Color> enumMap;
+    private int timer;
     public final static int TILE_SIZE = 30;
 
-    public GraphicsComponent(Board board, AbstractPlayer player1, AbstractPlayer player2) {
+
+    public GraphicsComponent(Board board, AbstractPlayer player1, AbstractPlayer player2, int timer) {
         this.board = board;
+        this.timer = timer;
         this.player1 = player1;
         this.player2 = player2;
         setColorMap();
@@ -53,12 +55,15 @@ public class GraphicsComponent extends JComponent {
         g2d.setFont(new Font("SansSerif", Font.BOLD, 20));
 
         g2d.setColor(enumMap.get(Tiles.PLAYER1));
-        g2d.drawString(player1.getName() + " :", 30, 30);
+        g2d.drawString(player1.getName() + " : " + player1.getScore(), 30, 30);
         g2d.fillRect(player1.position.x * TILE_SIZE, player1.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
         g2d.setColor(enumMap.get(Tiles.PLAYER2));
-        g2d.drawString(player2.getName() + " :", 300, 30);
+        g2d.drawString(player2.getName() + " : " + player2.getScore(), 300, 30);
         g2d.fillRect(player2.position.x * TILE_SIZE, player2.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+
+        g2d.setColor(Color.YELLOW);
+        g2d.drawString("Time: " + Game.getRoundTime(), 180, 30);
     }
 
     @Override

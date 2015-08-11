@@ -9,8 +9,16 @@ import java.util.Set;
  * Created by Håkan on 2015-08-11.
  */
 public abstract class AbstractPlayer {
-    protected int bombs, health, power, speed,
-            left, right, up, down, placeBomb;
+    protected int bombs;
+    protected int health;
+    protected int power;
+    protected int speed;
+    protected int left;
+    protected int right;
+    protected int up;
+    protected int down;
+    protected int placeBomb;
+    protected int score;
     protected String name;
     protected PlayerAction action;
     protected Image image;
@@ -19,6 +27,7 @@ public abstract class AbstractPlayer {
     protected Set<Integer> controls = new HashSet<Integer>(5);
 
     public AbstractPlayer(){
+        score = 0;
         speed = 1;
         bombs = 1;
         power = 1;
@@ -83,6 +92,14 @@ public abstract class AbstractPlayer {
         if (key == down) action = PlayerAction.STAND;
         if (key == placeBomb) action = PlayerAction.BOMB;
     */
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void increaseScore() {
+        this.score += 1;
     }
 
     public void setAction(PlayerAction a) {

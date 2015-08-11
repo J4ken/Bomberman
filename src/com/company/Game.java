@@ -19,16 +19,16 @@ public class Game extends JFrame implements KeyListener{
 
     private JFrame frame;
     private Queue<List> explosionsToRemove = new ArrayDeque<List>();
-    private JPanel game, start, score;
+    private JPanel game, start;
     private JButton play, quit;
     private CardLayout card;
     private Board board;
-    private Timer loopTimer;
-    //private Player player1, player2;
+    private Timer loopTimer, gameTimer;
     private GraphicsComponent gc;
     private List<Bomb> bombs = new ArrayList<Bomb>();
     private Set<Point> dontRemove = new HashSet<Point>();
     private boolean draw, gameOver;
+    private static int roundTime = 60;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
 
@@ -47,30 +47,38 @@ public class Game extends JFrame implements KeyListener{
         }
     };
 
+    final Action countDownTime = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            System.out.print(roundTime);
+            roundTime -= 1;
+        }
+    };
+
+    final Action doOneStep = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            gameLoop();
+        }
+    };
+
     public Game(final Board board) throws HeadlessException {
         player1 = Player1.getInstance();
         player2 = Player2.getInstance();
         this.board = board;
         draw = false;
         gameOver = false;
-        //player1 = new Player(1);
-        //player1.setName("Player 1");
-        //player2 = new Player(2);
-        //player2.setName("Player 2");
-        gc = new GraphicsComponent(board, player1, player2);
-        final Action doOneStep = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                gameLoop();
-            }
-        };
-
-
+        gc = new GraphicsComponent(board, player1, player2, roundTime);
 
         loopTimer = new Timer(30, doOneStep);
         loopTimer.setInitialDelay(0);
         loopTimer.setCoalesce(true);
         loopTimer.start();
+
+        gameTimer = new Timer(1000, countDownTime);
+        gameTimer.setInitialDelay(0);
+        gameTimer.setCoalesce(true);
+        gameTimer.start();
 
         setUpFrame();
     }
@@ -355,5 +363,9 @@ public class Game extends JFrame implements KeyListener{
                 }
             }
         }
+    }
+
+    public static int getRoundTime() {
+        return roundTime;
     }
 }
