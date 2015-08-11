@@ -48,7 +48,7 @@ public class Game extends JFrame implements KeyListener{
     };
 
     public Game(final Board board) throws HeadlessException {
-        player1 = new Player1();
+        player1 = Player1.getInstance();
         player2 = new Player2();
         this.board = board;
         draw = false;
