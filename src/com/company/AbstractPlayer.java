@@ -10,6 +10,7 @@ import java.util.Set;
  */
 public abstract class AbstractPlayer {
     protected int bombs;
+    protected int bombcount;
     protected int health;
     protected int power;
     protected int speed;
@@ -30,6 +31,7 @@ public abstract class AbstractPlayer {
         score = 0;
         speed = 1;
         bombs = 1;
+        bombcount = 0;
         power = 1;
         health = 3;
         name = "";
@@ -147,31 +149,46 @@ public abstract class AbstractPlayer {
         return bombs;
     }
 
-    public void setBombs(int bombs) {
-        this.bombs = bombs;
+    public void increaseBombs() {
+        System.out.print("increae Bomb");
+        bombs += 1;
     }
 
     public int getHealth() {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void increaseHealth() {
+        health += 1;
     }
 
     public int getPower() {
         return power;
     }
 
-    public void setPower(int power) {
-        this.power = power;
+    public void increasePower() {
+        System.out.print("increase Power");
+        power += 1;
     }
 
     public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
+    public void increaseSpeed() {
+        System.out.print("increase Speed");
+        speed += 1;
+    }
+
+    public int getBombcount() {
+        return bombcount;
+    }
+
+    public void increaseBombcount() {
+        this.bombcount += 1;
+    }
+
+    public void decreaseBombcount(){
+        this.bombcount -= 1;
     }
 }

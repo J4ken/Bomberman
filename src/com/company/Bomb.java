@@ -17,13 +17,17 @@ public class Bomb {
     private boolean explode;
     private Board board;
     private final Timer bombTimer;
+    private String player;
+
 
     public Bomb(AbstractPlayer p) {
         this.board = board;
         xPos = p.position.x;
         yPos = p.position.y;
-        power = 3;
+        power = p.getPower();
         explode = false;
+        player = p.name;
+
 
         final Action blowBomb = new AbstractAction() {
             @Override
@@ -52,6 +56,8 @@ public class Bomb {
     public int getxPos() {
         return xPos;
     }
+
+    public String getPlayer(){return player;}
 
     public void blow() {
         explode = true;

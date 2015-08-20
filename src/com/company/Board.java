@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class Board {
 
-    private Tiles[][] board;
+    public Tiles[][] board;
     private int width, height;
     private Random rnd = new Random();
 

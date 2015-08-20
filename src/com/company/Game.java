@@ -31,6 +31,8 @@ public class Game extends JFrame implements KeyListener{
     private static int roundTime = 60;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
+    private PowerUP pUp;
+
 
     final Action removeExplosions = new AbstractAction() {
         @Override
@@ -180,8 +182,20 @@ public class Game extends JFrame implements KeyListener{
 
     private void checkCollision() {
         Point p = player1.position;
-        if (board.getTile(p.x, p.y) == Tiles.FIRE) {
-            player1.loseHealth();
+        Tiles tile = board.getTile(p.x, p.y);
+        switch (tile){
+            case FIRE:
+                player1.loseHealth();
+                break;
+            case PBOMB:
+                player1.increaseBombs();
+                break;
+            case PSPEED:
+                player1.increaseSpeed();
+                break;
+            case PPOWER:
+                player1.increasePower();
+                break;
         }
 
         p = player2.position;
@@ -203,26 +217,35 @@ public class Game extends JFrame implements KeyListener{
     private void blowBomb(Bomb b) {
         Tiles tile;
         bombs.remove(b);
+        System.out.print(b.getPlayer());
+        if (b.getPlayer() == "Player 1"){
+            player1.decreaseBombcount();
+        } else {
+            player2.decreaseBombcount();
+        }
+
+
         List<Point> explosionPattern = new ArrayList<Point>();
         explosionPattern.add(new Point(b.getxPos(), b.getyPos()));
         //board.setTile(b.getxPos(), b.getyPos(), Tiles.FIRE);
 
         // lägger in FIRE-Tiles på alla platser där bomben exploderar
-        for (int i = 0; i < b.getPower(); ++i) {
-            if (i == 0) continue;
+        for (int i = 1; i <= b.getPower(); ++i) {
             tile = board.getTile(b.getxPos(), b.getyPos() + i);
             if (tile == Tiles.WALL) break;
-            explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
             switch (tile) {
 
                 // om vi spränger en låda så ska loopen brytas och lådan försvinner
                 case BOX:
                     // fixa så att en powerup kommer fram
+                    pUp = new PowerUP();
+                    board.setTile(b.getxPos(), b.getyPos() + i, pUp.getPUP());
                     i = b.getPower();
                     break;
 
                 // om vi spränger en bomb så ska den explodera
                 case BOMB:
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() + i) {
                             bomb.blow();
@@ -232,24 +255,30 @@ public class Game extends JFrame implements KeyListener{
 
                     // om det redan ligger en FIRE-Tile så ska vi lägga till den i undantagsllistan
                 case FIRE:
-                    Point p = new Point(b.getxPos(), b.getyPos());
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
+                    Point p = new Point(b.getxPos(), b.getyPos() + i);
                     dontRemove.add(p);
+                    break;
+                default:
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
+                    break;
             }
 
         }
 
-        for (int i = 0; i < b.getPower(); ++i) {
-            if (i == 0) continue;
+        // North
+        for (int i = 1; i <= b.getPower(); ++i) {
             tile = board.getTile(b.getxPos(), b.getyPos() - i);
             if (tile == Tiles.WALL) break;
-            explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
             switch (tile) {
 
                 case BOX:
-                    // fixa så att en powerup kommer fram
+                    pUp = new PowerUP();
+                    board.setTile(b.getxPos(),b.getyPos() - i, pUp.getPUP());
                     i = b.getPower();
                     break;
                 case BOMB:
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() && bomb.getyPos() == b.getyPos() - i) {
                             bomb.blow();
@@ -257,24 +286,29 @@ public class Game extends JFrame implements KeyListener{
                         }
                     }
                 case FIRE:
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
                     Point p = new Point(b.getxPos(), b.getyPos() - i);
                     dontRemove.add(p);
+                    break;
+                default:
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
                     break;
             }
         }
 
-        for (int i = 0; i < b.getPower(); ++i) {
-            if (i == 0) continue;
+        for (int i = 1; i <= b.getPower(); ++i) {
             tile = board.getTile(b.getxPos() + i, b.getyPos());
             if (tile == Tiles.WALL) break;
-            explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
             switch (tile) {
 
                 case BOX:
                     // fixa så att en powerup kommer fram
+                    pUp = new PowerUP();
+                    board.setTile(b.getxPos() + i,b.getyPos(),pUp.getPUP());
                     i = b.getPower();
                     break;
                 case BOMB:
+                    explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() + i && bomb.getyPos() == b.getyPos()) {
                             bomb.blow();
@@ -282,24 +316,29 @@ public class Game extends JFrame implements KeyListener{
                         }
                     }
                 case FIRE:
+                    explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
                     Point p = new Point(b.getxPos() + i, b.getyPos());
                     dontRemove.add(p);
+                    break;
+                default:
+                    explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
                     break;
             }
         }
 
-        for (int i = 0; i < b.getPower(); ++i) {
-            if (i == 0) continue;
+        // West
+        for (int i = 1; i <= b.getPower(); ++i) {
             tile = board.getTile(b.getxPos() - i, b.getyPos());
             if (tile == Tiles.WALL) break;
-            explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
             switch (tile) {
-
                 case BOX:
                     // fixa så att en powerup kommer fram
+                    pUp = new PowerUP();
+                    board.setTile(b.getxPos() - i, b.getyPos(),pUp.getPUP());
                     i = b.getPower();
                     break;
                 case BOMB:
+                    explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
                     for (Bomb bomb : bombs) {
                         if (bomb.getxPos() == b.getxPos() - i && bomb.getyPos() == b.getyPos()) {
                             bomb.blow();
@@ -307,8 +346,12 @@ public class Game extends JFrame implements KeyListener{
                         }
                     }
                 case FIRE:
+                    explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
                     Point p = new Point(b.getxPos() - i, b.getyPos());
                     dontRemove.add(p);
+                    break;
+                default:
+                    explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
                     break;
             }
         }
@@ -327,15 +370,21 @@ public class Game extends JFrame implements KeyListener{
         t.setRepeats(false);
     }
 
+
+    public void destroyPUP(int xPos, int yPos){
+        board.setTile(xPos,yPos,Tiles.FLOOR);
+    }
+
     // hanterar den PlayerAction som spelaren vill utföra
     private void makeMove(AbstractPlayer p) {
         // kollar om spelaren vill placera ut en bomb
-        if (p.isDroppingBomb()) {
+        if (p.isDroppingBomb() && p.bombs > p.bombcount) {
             if (board.getTile(p.position.x, p.position.y) == Tiles.FLOOR) {
                 Bomb b = new Bomb(p);
                 bombs.add(b);
                 board.setTile(b.getxPos(), b.getyPos(), Tiles.BOMB);
                 p.setDroppingBomb(false);
+                p.increaseBombcount();
             }
         }
 
@@ -355,9 +404,20 @@ public class Game extends JFrame implements KeyListener{
 
                 p.movePlayer();
 
+                Tiles nextTile = (board.getTile(p.position.x, p.position.y));
+
                 // kollar om rutan spelaren vill röra sig till är ledig
                 // om inte den är det så ändras inte spelarens position
-                if (board.getTile(p.position.x, p.position.y) != Tiles.FLOOR
+                if (nextTile == Tiles.PBOMB) {
+                    p.increaseBombs();
+                    destroyPUP(p.position.x, p.position.y);
+                } else if (nextTile == Tiles.PPOWER) {
+                    p.increasePower();
+                    destroyPUP(p.position.x, p.position.y);
+                } else if (nextTile == Tiles.PSPEED) {
+                    p.increaseSpeed();
+                    destroyPUP(p.position.x, p.position.y);
+                } else if (nextTile != Tiles.FLOOR
                         || p.position.equals(otherPlayer.position)) {
                     p.position.setLocation(initialPosition);
                 }

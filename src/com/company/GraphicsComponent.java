@@ -39,6 +39,10 @@ public class GraphicsComponent extends JComponent {
         enumMap.put(Tiles.FLOOR, Color.GREEN);
         enumMap.put(Tiles.PLAYER1, Color.CYAN);
         enumMap.put(Tiles.PLAYER2, Color.RED);
+        enumMap.put(Tiles.PBOMB, Color.YELLOW);
+        enumMap.put(Tiles.PPOWER, Color.PINK);
+        enumMap.put(Tiles.PSPEED, Color.LIGHT_GRAY);
+
     }
 
     @Override
