@@ -27,6 +27,7 @@ public class Game extends JFrame implements KeyListener{
     private GraphicsComponent gc;
     private List<Bomb> bombs = new ArrayList<Bomb>();
     private Set<Point> dontRemove = new HashSet<Point>();
+    private Set<Point> powerUp = new HashSet<Point>();
     private boolean draw, gameOver;
     private static int roundTime = 60;
     private final static int WINDOW_HEIGHT = 480;
@@ -40,7 +41,13 @@ public class Game extends JFrame implements KeyListener{
             List<Point> l = new ArrayList<Point>(explosionsToRemove.poll());
             for (Point p : l) {
                 if (!dontRemove.contains(p)) {
-                    board.setTile(p.x, p.y, Tiles.FLOOR);
+                    if (powerUp.contains(p)) {
+                        pUp = new PowerUP();
+                        board.setTile(p.x, p.y, pUp.getPUP());
+                    }
+                    else {
+                        board.setTile(p.x, p.y, Tiles.FLOOR);
+                    }
                 }
                 else {
                     dontRemove.remove(p);
@@ -206,7 +213,8 @@ public class Game extends JFrame implements KeyListener{
         bombs.remove(b);
         if (b.getPlayer() == "Player 1"){
             player1.decreaseBombcount();
-        } else if (b.getPlayer() == "Player 2"){
+        }
+        else if (b.getPlayer() == "Player 2"){
             player2.decreaseBombcount();
         }
 
@@ -224,8 +232,10 @@ public class Game extends JFrame implements KeyListener{
                 // om vi spränger en låda så ska loopen brytas och lådan försvinner
                 case BOX:
                     // fixa så att en powerup kommer fram
-                    pUp = new PowerUP();
-                    board.setTile(b.getxPos(), b.getyPos() + i, pUp.getPUP());
+                    //pUp = new PowerUP();
+                    powerUp.add(new Point(b.getxPos(), b.getyPos() + i));
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
+                    //board.setTile(b.getxPos(), b.getyPos() + i, pUp.getPUP());
                     i = b.getPower();
                     break;
 
@@ -259,9 +269,11 @@ public class Game extends JFrame implements KeyListener{
             switch (tile) {
 
                 case BOX:
-                    pUp = new PowerUP();
-                    board.setTile(b.getxPos(),b.getyPos() - i, pUp.getPUP());
-                    i = b.getPower();
+                    //pUp = new PowerUP();
+                    //board.setTile(b.getxPos(),b.getyPos() - i, pUp.getPUP());
+                    //i = b.getPower();
+                    explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
+                    powerUp.add(new Point(b.getxPos(), b.getyPos() - i));
                     break;
                 case BOMB:
                     explosionPattern.add(new Point(b.getxPos(), b.getyPos() - i));
@@ -289,9 +301,11 @@ public class Game extends JFrame implements KeyListener{
 
                 case BOX:
                     // fixa så att en powerup kommer fram
-                    pUp = new PowerUP();
-                    board.setTile(b.getxPos() + i,b.getyPos(),pUp.getPUP());
-                    i = b.getPower();
+                    //pUp = new PowerUP();
+                    //board.setTile(b.getxPos() + i,b.getyPos(),pUp.getPUP());
+                    //i = b.getPower();
+                    explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
+                    powerUp.add(new Point(b.getxPos() + i, b.getyPos()));
                     break;
                 case BOMB:
                     explosionPattern.add(new Point(b.getxPos() + i, b.getyPos()));
@@ -319,9 +333,11 @@ public class Game extends JFrame implements KeyListener{
             switch (tile) {
                 case BOX:
                     // fixa så att en powerup kommer fram
-                    pUp = new PowerUP();
-                    board.setTile(b.getxPos() - i, b.getyPos(),pUp.getPUP());
-                    i = b.getPower();
+                    //pUp = new PowerUP();
+                    //board.setTile(b.getxPos() - i, b.getyPos(),pUp.getPUP());
+                    //i = b.getPower();
+                    powerUp.add(new Point(b.getxPos() - i, b.getyPos()));
+                    explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
                     break;
                 case BOMB:
                     explosionPattern.add(new Point(b.getxPos() - i, b.getyPos()));
