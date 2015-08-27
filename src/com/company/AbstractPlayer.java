@@ -150,7 +150,6 @@ public abstract class AbstractPlayer {
     }
 
     public void increaseBombs() {
-        System.out.print("increae Bomb");
         bombs += 1;
     }
 
@@ -167,7 +166,6 @@ public abstract class AbstractPlayer {
     }
 
     public void increasePower() {
-        System.out.print("increase Power");
         power += 1;
     }
 
@@ -176,7 +174,6 @@ public abstract class AbstractPlayer {
     }
 
     public void increaseSpeed() {
-        System.out.print("increase Speed");
         speed += 1;
     }
 

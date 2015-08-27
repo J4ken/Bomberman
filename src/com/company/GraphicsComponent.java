@@ -61,10 +61,13 @@ public class GraphicsComponent extends JComponent {
         g2d.setColor(enumMap.get(Tiles.PLAYER1));
         g2d.drawString(player1.getName() + " : " + player1.getScore(), 30, 30);
         g2d.fillRect(player1.position.x * TILE_SIZE, player1.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        g2d.drawString("B: " + player1.bombs + "  P: " + player1.power, 30, 50);
+
 
         g2d.setColor(enumMap.get(Tiles.PLAYER2));
         g2d.drawString(player2.getName() + " : " + player2.getScore(), 300, 30);
         g2d.fillRect(player2.position.x * TILE_SIZE, player2.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        g2d.drawString("B: " + player2.bombs + "  P: " + player2.power, 300, 50);
 
         g2d.setColor(Color.YELLOW);
         g2d.drawString("Time: " + Game.getRoundTime(), 180, 30);

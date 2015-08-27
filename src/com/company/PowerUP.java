@@ -14,13 +14,14 @@ public class PowerUP {
 
     public PowerUP(){
         Random rng = new Random();
-        int pUP = rng.nextInt(20);
+        int pUP = rng.nextInt(8);
         switch (pUP) {
             case 0:
                 pUpTile = Tiles.PBOMB;
                 break;
             case 1:
-                pUpTile = Tiles.PSPEED;
+                //pUpTile = Tiles.PSPEED;
+                pUpTile = Tiles.FLOOR;
                 break;
             case 2:
                 pUpTile = Tiles.PPOWER;

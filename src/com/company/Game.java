@@ -52,7 +52,6 @@ public class Game extends JFrame implements KeyListener{
     final Action countDownTime = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            System.out.print(roundTime);
             roundTime -= 1;
         }
     };
@@ -180,24 +179,12 @@ public class Game extends JFrame implements KeyListener{
         makeMove(player2);
     }
 
+
     private void checkCollision() {
         Point p = player1.position;
-        Tiles tile = board.getTile(p.x, p.y);
-        switch (tile){
-            case FIRE:
-                player1.loseHealth();
-                break;
-            case PBOMB:
-                player1.increaseBombs();
-                break;
-            case PSPEED:
-                player1.increaseSpeed();
-                break;
-            case PPOWER:
-                player1.increasePower();
-                break;
+        if (board.getTile(p.x, p.y) == Tiles.FIRE) {
+            player1.loseHealth();
         }
-
         p = player2.position;
         if (board.getTile(p.x, p.y) == Tiles.FIRE) {
             player2.loseHealth();
@@ -217,10 +204,9 @@ public class Game extends JFrame implements KeyListener{
     private void blowBomb(Bomb b) {
         Tiles tile;
         bombs.remove(b);
-        System.out.print(b.getPlayer());
         if (b.getPlayer() == "Player 1"){
             player1.decreaseBombcount();
-        } else {
+        } else if (b.getPlayer() == "Player 2"){
             player2.decreaseBombcount();
         }
 
