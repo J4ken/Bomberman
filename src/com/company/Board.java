@@ -7,7 +7,12 @@ import java.util.Random;
  */
 public class Board {
 
-    public Tiles[][] board;
+    /**
+     * Board requires a height and a width to create a board
+     * with walls and floor tiles
+     */
+    private Tiles[][] board;
+
     private int width, height;
     private Random rnd = new Random();
 
@@ -46,15 +51,10 @@ public class Board {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
+
 }

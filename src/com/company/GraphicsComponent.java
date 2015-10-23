@@ -1,37 +1,40 @@
 package com.company;
 
-import javafx.scene.paint.*;
-import sun.plugin2.util.ColorUtil;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.AbstractMap;
 import java.util.EnumMap;
 
 /**
  * Created by Håkan on 2015-07-31.
  */
+@SuppressWarnings("MagicNumber")
 public class GraphicsComponent extends JComponent {
+
+    /**
+     * GraphicsComponent manages the graphics in Bomberman.
+     * Each Tile is paired with a color in a EnumMap.
+     */
+
     private Board board;
     private AbstractPlayer player1, player2;
     private AbstractMap<Tiles, Color> enumMap;
-    private int timer;
-    public final static int TILE_SIZE = 30;
+
+    /**
+     * TILE_SIZE is the number of pixels used for each tile
+     */
+    public final static int TILE_SIZE = 32;
 
 
-    public GraphicsComponent(Board board, AbstractPlayer player1, AbstractPlayer player2, int timer) {
+    public GraphicsComponent(Board board, AbstractPlayer player1, AbstractPlayer player2) {
         this.board = board;
-        this.timer = timer;
         this.player1 = player1;
         this.player2 = player2;
         setColorMap();
     }
 
     private void setColorMap() {
-        enumMap = new EnumMap<Tiles, Color>(Tiles.class);
+        enumMap = new EnumMap<>(Tiles.class);
         enumMap.put(Tiles.BOMB, Color.BLACK);
         enumMap.put(Tiles.BOX, Color.BLUE);
         enumMap.put(Tiles.FIRE, Color.ORANGE);
@@ -40,9 +43,15 @@ public class GraphicsComponent extends JComponent {
         enumMap.put(Tiles.PLAYER1, Color.CYAN);
         enumMap.put(Tiles.PLAYER2, Color.RED);
         enumMap.put(Tiles.PBOMB, Color.YELLOW);
-        enumMap.put(Tiles.PPOWER, Color.PINK);
+        enumMap.put(Tiles.PFIRE, Color.PINK);
         enumMap.put(Tiles.PSPEED, Color.LIGHT_GRAY);
 
+    }
+
+
+    public void drawWinner(String winner){
+        JFrame frame = new JFrame("winner");
+        JOptionPane.showMessageDialog(frame, "the winner is " + winner, "WINNER", JOptionPane.PLAIN_MESSAGE);
     }
 
     @Override
@@ -73,7 +82,7 @@ public class GraphicsComponent extends JComponent {
         g2d.drawString("Time: " + Game.getRoundTime(), 180, 30);
     }
 
-    @Override
+    @SuppressWarnings("RefusedBequest") @Override
     public Dimension getPreferredSize() {
         return new Dimension(TILE_SIZE * board.getWidth(), TILE_SIZE * board.getHeight());
     }

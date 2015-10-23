@@ -2,16 +2,21 @@ package com.company;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Håkan on 2015-08-11.
  */
-public abstract class AbstractPlayer {
+public class AbstractPlayer {
+
+    /*
+     Abstracy player is used to create new player objects.
+     */
+
+    protected boolean damaged = false;
     protected int bombs;
     protected int bombcount;
-    protected int health;
     protected int power;
     protected int speed;
     protected int left;
@@ -22,24 +27,22 @@ public abstract class AbstractPlayer {
     protected int score;
     protected String name;
     protected PlayerAction action;
-    protected Image image;
     protected Point position = new Point(0,0);
-    protected boolean droppingBomb, moving, winner;
-    protected Set<Integer> controls = new HashSet<Integer>(5);
+    protected boolean droppingBomb, moving;
+    protected Collection<Integer> controls = new HashSet<>(5);
 
-    public AbstractPlayer(){
+    protected AbstractPlayer(){
         score = 0;
         speed = 1;
         bombs = 1;
         bombcount = 0;
         power = 1;
-        health = 3;
-        name = "";
         droppingBomb = false;
         moving = false;
-        action = PlayerAction.STAND;
-        winner = false;
+        action = PlayerAction.PLAYER_STAND;
     }
+
+
 
     public void initializeControls(int up, int down, int left, int right, int placeBomb) {
         this.up = up;
@@ -56,81 +59,58 @@ public abstract class AbstractPlayer {
 
     public void movePlayer() {
         if (!moving) {
+            //this is only for checking movemnt and not when you drop a bomb
             switch (action) {
-                case UP:
+                case PLAYER_UP:
                     position.y -= 1;
                     break;
-                case DOWN:
+                case PLAYER_DOWN:
                     position.y += 1;
                     break;
-                case LEFT:
+                case PLAYER_LEFT:
                     position.x -= 1;
                     break;
-                case RIGHT:
+                case PLAYER_RIGHT:
                     position.x += 1;
                     break;
+                case PLAYER_BOMB:
+                    droppingBomb = true;
+                default:
+                    break;
             }
-            action = PlayerAction.STAND;
+            action = PlayerAction.PLAYER_STAND;
         }
     }
 
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         moving = true;
-        if (key == left) action = PlayerAction.LEFT;
-        if (key == right) action = PlayerAction.RIGHT;
-        if (key == up) action = PlayerAction.UP;
-        if (key == down) action = PlayerAction.DOWN;
-        if (key == placeBomb) droppingBomb = true;
+        if (key == left) action = PlayerAction.PLAYER_LEFT;
+        if (key == right) action = PlayerAction.PLAYER_RIGHT;
+        if (key == up) action = PlayerAction.PLAYER_UP;
+        if (key == down) action = PlayerAction.PLAYER_DOWN;
+        if (key == placeBomb) action = PlayerAction.PLAYER_BOMB;
     }
 
-    public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
+    public void keyReleased() {
         moving = false;
         droppingBomb = false;
-        /*if (key == left) action = PlayerAction.STAND;
-        if (key == right) action = PlayerAction.STAND;
-        if (key == up) action = PlayerAction.STAND;
-        if (key == down) action = PlayerAction.STAND;
-        if (key == placeBomb) action = PlayerAction.BOMB;
-    */
     }
 
     public int getScore() {
         return score;
     }
 
-    public void increaseScore() {
-        this.score += 1;
-    }
-
-    public void setAction(PlayerAction a) {
-        action = a;
-    }
-
-    public void setWinner() {
-        winner = true;
+    public void increaseScore(){
+        score += 1;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public PlayerAction getAction() {
         return action;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(int x, int y) {
-        this.position.x = x;
-        this.position.y = y;
     }
 
     public boolean isDroppingBomb() {
@@ -141,24 +121,8 @@ public abstract class AbstractPlayer {
         this.droppingBomb = droppingBomb;
     }
 
-    public void loseHealth() {
-        health -= 1;
-    }
-
-    public int getBombs() {
-        return bombs;
-    }
-
     public void increaseBombs() {
         bombs += 1;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void increaseHealth() {
-        health += 1;
     }
 
     public int getPower() {
@@ -169,16 +133,9 @@ public abstract class AbstractPlayer {
         power += 1;
     }
 
-    public int getSpeed() {
-        return speed;
-    }
 
     public void increaseSpeed() {
         speed += 1;
-    }
-
-    public int getBombcount() {
-        return bombcount;
     }
 
     public void increaseBombcount() {
