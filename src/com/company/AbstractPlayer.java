@@ -25,7 +25,7 @@ public class AbstractPlayer {
     protected int down;
     protected int placeBomb;
     protected int score;
-    protected String name;
+    protected String name = null;
     protected PlayerAction action;
     protected Point position = new Point(0,0);
     protected boolean droppingBomb, moving;
@@ -75,7 +75,7 @@ public class AbstractPlayer {
                     break;
                 case PLAYER_BOMB:
                     droppingBomb = true;
-                default:
+                case PLAYER_STAND:
                     break;
             }
             action = PlayerAction.PLAYER_STAND;

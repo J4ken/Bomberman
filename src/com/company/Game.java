@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.Powerups.PowerUpFactory;
+import com.company.powerups.PowerUpFactory;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -25,7 +25,7 @@ public class Game extends JFrame implements KeyListener{
     private AbstractPlayer player1, player2;
 
     private JFrame frame;
-    private Queue<List> explosionsToRemove = new ArrayDeque<>();
+    private Queue<List> explosionsToRemove = new ArrayDeque<>(); //this is a Queue of List of explosions from a bomb
     private CardLayout card;
     private Board board;
     private Timer loopTimer, roundTimer;
@@ -34,7 +34,7 @@ public class Game extends JFrame implements KeyListener{
     private List<Point> dontRemove = new ArrayList<>(); //this is a list of pointers that indicates Tiles that should not be removed
     private List<Point> powerUp = new ArrayList<>(); //this is a list of pointers that indicates where powerups should be placed
     private boolean gameOver;
-    private String winner = "it's a draw"; //initiate winner to a draw
+    private String winner = "no one! it's a draw"; //initiate winner to a draw
     private static int roundTime = 60; //the specific time for each gameround
     private final static int FIRE_TIMER = 600;
     private final static int DELAY_TIME = 30;
@@ -45,21 +45,21 @@ public class Game extends JFrame implements KeyListener{
     private final Action removeExplosions = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            Iterable<Point> l = new ArrayList<>(explosionsToRemove.poll());
-            for (Point p : l) {
-                if (!dontRemove.contains(p)) {
-                    if (powerUp.contains(p)) {
-                        PowerUpFactory  pUp = new PowerUpFactory();
+            Iterable<Point> explosions = new ArrayList<>(explosionsToRemove.poll());
+            for (Point point : explosions) {
+                if (!dontRemove.contains(point)) {
+                    if (powerUp.contains(point)) {
+                        PowerUpFactory pUp = new PowerUpFactory();
 
-                        board.setTile(p.x, p.y, pUp.getpUpTile().getPTILE());
-                        powerUp.remove(p);
+                        board.setTile(point.x, point.y, pUp.getpUpTile().getPTILE());
+                        powerUp.remove(point);
                     }
                     else {
-                        board.setTile(p.x, p.y, Tiles.FLOOR);
+                        board.setTile(point.x, point.y, Tiles.FLOOR);
                     }
                 }
                 else {
-                    dontRemove.remove(p);
+                    dontRemove.remove(point);
                 }
             }
         }
@@ -106,7 +106,6 @@ public class Game extends JFrame implements KeyListener{
                 decreaseRoundTime();
                 if (roundTime == 0) {
                     gameOver = true;
-                    restartGame();
                 }
             }
         };
@@ -204,11 +203,6 @@ public class Game extends JFrame implements KeyListener{
         makeMove(player2);
     }
 
-    private void restartGame(){
-
-    }
-
-
     private void checkDamage() {
         Point p1 = player1.position;
         if (board.getTile(p1.x, p1.y) == Tiles.FIRE) {
@@ -232,11 +226,11 @@ public class Game extends JFrame implements KeyListener{
     }
 
     public void checkBombs() {
-        Iterable<Bomb> l = new ArrayList<>(bombs);
-        for (Bomb b : l) {
-            if (b.isExplode()) {
+        Iterable<Bomb> bombs = new ArrayList<>(this.bombs);
+        for (Bomb bomb : bombs) {
+            if (bomb.isExplode()) {
                 // spränger bomben
-                blowBomb(b);
+                blowBomb(bomb);
             }
         }
     }
@@ -251,11 +245,8 @@ public class Game extends JFrame implements KeyListener{
         else if (b.getPlayer().equals("Player 2")){
             player2.decreaseBombcount();
         }
-
-
         List<Point> explosionPattern = new ArrayList<>();
         explosionPattern.add(new Point(b.getxPos(), b.getyPos()));
-        //board.setTile(b.getxPos(), b.getyPos(), Tiles.FIRE);
 
         // lägger in FIRE-Tiles på alla platser där bomben exploderar
         explode_south: for (int i = 1; i <= b.getPower(); ++i) {
@@ -292,7 +283,6 @@ public class Game extends JFrame implements KeyListener{
                     explosionPattern.add(new Point(b.getxPos(), b.getyPos() + i));
                     break;
             }
-
         }
 
         // North
@@ -457,7 +447,6 @@ public class Game extends JFrame implements KeyListener{
     }
 
     public void decreaseRoundTime(){
-        //noinspection AssignmentToStaticFieldFromInstanceMethod
         roundTime -= 1;
     }
 }

@@ -8,9 +8,18 @@ import java.util.EnumMap;
 /**
  * Created by Håkan on 2015-07-31.
  */
-@SuppressWarnings("MagicNumber")
 public class GraphicsComponent extends JComponent {
 
+
+    /**
+     * Theese varables are self explaining
+     */
+    public static final int FONT_SIZE = 20; //
+    public static final int PLAYER1_XPOSITION = 30; //
+    public static final int NAMEBAR_YPOSITION = 30;
+    public static final int SCORE_YPOSITION = 50;
+    public static final int PLAYER2_XPOSITION = 300;
+    public static final int GAMETIME_XPOSITON = 180;
     /**
      * GraphicsComponent manages the graphics in Bomberman.
      * Each Tile is paired with a color in a EnumMap.
@@ -65,24 +74,26 @@ public class GraphicsComponent extends JComponent {
                 g2d.fillRect(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
-        g2d.setFont(new Font("SansSerif", Font.BOLD, 20));
+        g2d.setFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
 
         g2d.setColor(enumMap.get(Tiles.PLAYER1));
-        g2d.drawString(player1.getName() + " : " + player1.getScore(), 30, 30);
+        g2d.drawString(player1.getName() + " : " + player1.getScore(), PLAYER1_XPOSITION, NAMEBAR_YPOSITION);
         g2d.fillRect(player1.position.x * TILE_SIZE, player1.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        g2d.drawString("B: " + player1.bombs + "  P: " + player1.power, 30, 50);
+        g2d.drawString("B: " + player1.bombs + "  P: " + player1.power, PLAYER1_XPOSITION, SCORE_YPOSITION);
 
 
         g2d.setColor(enumMap.get(Tiles.PLAYER2));
-        g2d.drawString(player2.getName() + " : " + player2.getScore(), 300, 30);
+        g2d.drawString(player2.getName() + " : " + player2.getScore(), PLAYER2_XPOSITION, NAMEBAR_YPOSITION);
         g2d.fillRect(player2.position.x * TILE_SIZE, player2.position.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        g2d.drawString("B: " + player2.bombs + "  P: " + player2.power, 300, 50);
+        g2d.drawString("B: " + player2.bombs + "  P: " + player2.power, PLAYER2_XPOSITION, SCORE_YPOSITION);
 
         g2d.setColor(Color.YELLOW);
-        g2d.drawString("Time: " + Game.getRoundTime(), 180, 30);
+        g2d.drawString("Time: " + Game.getRoundTime(), GAMETIME_XPOSITON, NAMEBAR_YPOSITION);
     }
 
-    @SuppressWarnings("RefusedBequest") @Override
+    //this is not an issue!
+    //we do want to Override and ignore getPreferredSize to set the size of the winidow
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(TILE_SIZE * board.getWidth(), TILE_SIZE * board.getHeight());
     }

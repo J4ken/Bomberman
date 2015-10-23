@@ -22,7 +22,8 @@ public class Player1 extends AbstractPlayer {
 
     private static final class InstanceHolder
     {
-        @SuppressWarnings("ConstantNamingConvention") private static final Player1 instance = new Player1();
+        //instance is a goodenough name for this usage!
+        private static final Player1 instance = new Player1();
     }
 
     public static Player1 getInstance() {
