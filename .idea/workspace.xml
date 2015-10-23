@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a05b194d-b484-436e-9919-7a588feccd4d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/AbstractPlayer.java" afterPath="$PROJECT_DIR$/src/com/company/AbstractPlayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Game.java" afterPath="$PROJECT_DIR$/src/com/company/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/GraphicsComponent.java" afterPath="$PROJECT_DIR$/src/com/company/GraphicsComponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Player1.java" afterPath="$PROJECT_DIR$/src/com/company/Player1.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Player2.java" afterPath="$PROJECT_DIR$/src/com/company/Player2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/PlayerAction.java" afterPath="$PROJECT_DIR$/src/com/company/PlayerAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Tiles.java" afterPath="$PROJECT_DIR$/src/com/company/Tiles.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Programmering\Java\Bomberman\src\com\company\Main.java" afterPath="$PROJECT_DIR$/src/com/company/Bomberman.java" />
     </list>
     <ignored path="Bomberman.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -625,7 +617,13 @@
       <option name="project" value="LOCAL" />
       <updated>1445611181126</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="fixed and commented some issues&#10;">
+      <created>1445617517671</created>
+      <option name="number" value="00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1445617517671</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -715,7 +713,8 @@
     <MESSAGE value="Added and fixed powerups" />
     <MESSAGE value="Added GUI for the powerups and removed all Print" />
     <MESSAGE value="Added powerupfacotry" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added powerupfacotry" />
+    <MESSAGE value="fixed and commented some issues&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed and commented some issues&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
