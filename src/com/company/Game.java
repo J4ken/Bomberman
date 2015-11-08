@@ -40,18 +40,17 @@ public class Game extends JFrame implements KeyListener{
     private final static int DELAY_TIME = 30;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
+    private PowerUpFactory pUp = new PowerUpFactory();
 
 
     private final Action removeExplosions = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            Iterable<Point> explosions = new ArrayList<>(explosionsToRemove.poll());
+            Iterable<Point> explosions = new ArrayList<>(explosionsToRemove.poll()); //this is correct
             for (Point point : explosions) {
                 if (!dontRemove.contains(point)) {
                     if (powerUp.contains(point)) {
-                        PowerUpFactory pUp = new PowerUpFactory();
-
-                        board.setTile(point.x, point.y, pUp.getpUpTile().getPTILE());
+                        board.setTile(point.x, point.y, pUp.getRandomPowerUp().getPTILE());
                         powerUp.remove(point);
                     }
                     else {
@@ -203,7 +202,7 @@ public class Game extends JFrame implements KeyListener{
         makeMove(player2);
     }
 
-    private void checkDamage() {
+    private void checkDamage    () {
         Point p1 = player1.position;
         if (board.getTile(p1.x, p1.y) == Tiles.FIRE) {
             if (!player1.damaged){
@@ -234,15 +233,101 @@ public class Game extends JFrame implements KeyListener{
             }
         }
     }
+    private void explodeFunction(String direction, Bomb b) {
 
-    // This is a big function, but it is required to check every adjacent tile
-    private void blowBomb(Bomb b) {
+        int dirX = 0;
+        int dirY = 0;
+        int i = 1;
+        int power = b.getPower();
         Tiles tile;
+        Point currentPoint;
+        List<Point> explosionPattern = new ArrayList<>();
+        explosionPattern.add(new Point(b.getxPos(), b.getyPos()));
+
+
+        while (i <= power){
+
+	    switch(direction){
+	                case "east":
+	                    dirX++;
+	                    break;
+	                case "west":
+	                    dirX--;
+	                    break;
+	                case "north":
+	                    dirY--;
+	                    break;
+	                case "south":
+	                    dirY++;
+	                    break;
+	            }
+
+
+            currentPoint = new Point(b.getxPos() + dirX, b.getyPos() + dirY);
+            tile = board.getTile(b.getxPos() + dirX, b.getyPos() + dirY);
+            if (tile == Tiles.WALL) break;
+
+            switch (tile) {
+                case BOX:
+                    powerUp.add(currentPoint);
+                    explosionPattern.add(currentPoint);
+                    break;
+
+                case BOMB:
+                    explosionPattern.add(currentPoint);
+                    for (Bomb bomb : bombs) {
+                        if (bomb.getxPos() == b.getxPos() + dirX && bomb.getyPos() == b.getyPos() + dirY) {
+                            bomb.blow();
+                            break;
+                        }
+                    }
+                    break;
+
+                case FIRE:
+                    explosionPattern.add(currentPoint);
+                    dontRemove.add(currentPoint);
+                    break;
+                default:
+                    explosionPattern.add(currentPoint);
+                    break;
+            }
+            i++;
+        }
+	for (Point p : explosionPattern) {
+	     board.setTile(p.x, p.y, Tiles.FIRE);
+	 }
+
+	 explosionsToRemove.add(explosionPattern);
+	 Timer t = new Timer(FIRE_TIMER, removeExplosions);
+	 t.start();
+	 t.setRepeats(false);
+    }
+
+    private void blowBomb(Bomb b){
         bombs.remove(b);
-        if (b.getPlayer().equals("Player 1")){
+
+        //decrese player bomb
+        if (b.getPlayer().equals(player1.getName())){
             player1.decreaseBombcount();
         }
-        else if (b.getPlayer().equals("Player 2")){
+        else if (b.getPlayer().equals(player2.getName())){
+            player2.decreaseBombcount();
+        }
+        explodeFunction("east", b);
+        explodeFunction("west", b);
+        explodeFunction("north", b);
+        explodeFunction("south", b);
+    }
+
+
+    // This is a big function, but it is required to check every adjacent tile
+    private void ablowBomb(Bomb b) {
+        Tiles tile;
+        bombs.remove(b);
+        if (b.getPlayer().equals(player1.getName())){
+            player1.decreaseBombcount();
+        }
+        else if (b.getPlayer().equals(player2.getName())){
             player2.decreaseBombcount();
         }
         List<Point> explosionPattern = new ArrayList<>();
@@ -446,6 +531,8 @@ public class Game extends JFrame implements KeyListener{
         return roundTime;
     }
 
+    //roundTime is called by GraphicsComponent which requers it to be static
+    //and we have to decrease it somehow
     public void decreaseRoundTime(){
         roundTime -= 1;
     }

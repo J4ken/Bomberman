@@ -25,13 +25,15 @@ public class AbstractPlayer {
     protected int down;
     protected int placeBomb;
     protected int score;
-    protected String name = null;
+    protected String name;
     protected PlayerAction action;
     protected Point position = new Point(0,0);
     protected boolean droppingBomb, moving;
     protected Collection<Integer> controls = new HashSet<>(5);
 
-    protected AbstractPlayer(){
+    protected AbstractPlayer(String name){
+
+        this.name = name;
         score = 0;
         speed = 1;
         bombs = 1;
@@ -59,7 +61,6 @@ public class AbstractPlayer {
 
     public void movePlayer() {
         if (!moving) {
-            //this is only for checking movemnt and not when you drop a bomb
             switch (action) {
                 case PLAYER_UP:
                     position.y -= 1;
@@ -75,6 +76,7 @@ public class AbstractPlayer {
                     break;
                 case PLAYER_BOMB:
                     droppingBomb = true;
+                    break;
                 case PLAYER_STAND:
                     break;
             }
@@ -132,7 +134,6 @@ public class AbstractPlayer {
     public void increasePower() {
         power += 1;
     }
-
 
     public void increaseSpeed() {
         speed += 1;
