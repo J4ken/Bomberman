@@ -40,7 +40,6 @@ public class Game extends JFrame implements KeyListener{
     private final static int DELAY_TIME = 30;
     private final static int WINDOW_HEIGHT = 480;
     private final static int WINDOW_WIDTH = 640;
-    private PowerUpFactory pUp = new PowerUpFactory();
 
 
     private final Action removeExplosions = new AbstractAction() {
@@ -50,6 +49,7 @@ public class Game extends JFrame implements KeyListener{
             for (Point point : explosions) {
                 if (!dontRemove.contains(point)) {
                     if (powerUp.contains(point)) {
+                        PowerUpFactory pUp = new PowerUpFactory();
                         board.setTile(point.x, point.y, pUp.getRandomPowerUp().getPTILE());
                         powerUp.remove(point);
                     }
