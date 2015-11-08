@@ -1,6 +1,4 @@
-package com.company.Powerups;
-
-import com.company.Tiles;
+package com.company.powerups;
 
 import java.util.Random;
 
@@ -11,10 +9,19 @@ import java.util.Random;
  */
 public class PowerUpFactory
 {
-    public PowerUp getpUpTile(){
+
+//    private static Random rng;
+//    int pUP;
+
+    public void PowerUpFactory(){
+//        this.rng  = new Random();
+    }
+
+    public PowerUp getRandomPowerUp(){
 
         Random rng = new Random();
         int pUP = rng.nextInt(8);
+
         switch (pUP) {
             case 0:
                 return new FireUp();

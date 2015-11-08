@@ -1,4 +1,4 @@
-package com.company.Powerups;
+package com.company.powerups;
 
 import com.company.Tiles;
 
