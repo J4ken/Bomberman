@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class Game extends JFrame implements KeyListener{
 
-    /*
-
+    /**
+     * roundTime is the specific time for each round
      */
 
     private AbstractPlayer player1, player2;
@@ -31,8 +31,8 @@ public class Game extends JFrame implements KeyListener{
     private Timer loopTimer, roundTimer;
     private GraphicsComponent gc;
     private List<Bomb> bombs = new ArrayList<>();
-    private List<Point> dontRemove = new ArrayList<>(); //this is a list of pointers that indicates Tiles that should not be removed
-    private List<Point> powerUp = new ArrayList<>(); //this is a list of pointers that indicates where powerups should be placed
+    private Collection<Point> dontRemove = new ArrayList<>(); //this is a list of pointers that indicates Tiles that should not be removed
+    private Collection<Point> powerUp = new ArrayList<>(); //this is a list of pointers that indicates where powerups should be placed
     private boolean gameOver;
     private String winner = "no one! it's a draw"; //initiate winner to a draw
     private static int roundTime = 60; //the specific time for each gameround
@@ -263,6 +263,11 @@ public class Game extends JFrame implements KeyListener{
             Tiles tile = board.getTile(b.getxPos() + dirX, b.getyPos() + dirY);
             if (tile == Tiles.WALL) break;
 
+
+            /**
+             * We do not need to check every possible tile.
+             * This is only specific tiles that do something specific when exploded instead of just disappear
+             */
             switch (tile) {
                 case BOX:
                     powerUp.add(currentPoint);
