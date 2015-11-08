@@ -8,10 +8,10 @@ import java.util.HashSet;
 /**
  * Created by Håkan on 2015-08-11.
  */
-public class AbstractPlayer {
+public abstract class AbstractPlayer {
 
     /*
-     Abstracy player is used to create new player objects.
+     * Abstract player is used to create new player objects.
      */
 
     protected boolean damaged = false;

@@ -14,7 +14,6 @@ public class Player1 extends AbstractPlayer {
 
     protected Player1() {
         super("Player1");
-//        this.name = "Player 1"; // assign the name for the player in the AbstractPlayer class
         this.position.x = 1;
         this.position.y = 2;
 

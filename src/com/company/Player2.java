@@ -20,7 +20,6 @@ public class Player2 extends AbstractPlayer{
 
     protected Player2() {
         super("Player2");
-//        this.name = "Player2";
         this.position.x = PLAYER2_START_XPOS;
         this.position.y = PLAYER2_START_YPOS;
         initializeControls(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_E);
